@@ -8,7 +8,7 @@ services:
       - TZ=America/Los_Angeles
       - VERSION=docker
       - PLEX_CLAIM=claim-ZczzEKadaS96CCLXbLD3 # get this from plex.tv/claim
-      - ADVERTISE_IP=https://plex.lab.hobbscene.com:443 #change me
+      - ADVERTISE_IP=https://plex.media.hobbscene.com:443 #change me
       - ALLOWED_NETWORKS=192.168.1.0/16 # place trusted network ranges here
     devices:
       - /dev/dri:/dev/dri
@@ -57,7 +57,7 @@ services:
         - "traefik.http.routers.plex-secure.tls=true"
         # - "traefik.http.routers.plex-secure.tls.certresolver=cloudflare"
         - "traefik.http.routers.plex-secure.service=plex"
-        - "traefik.http.routers.plex-secure.middlewares=auth"
+        # - "traefik.http.routers.plex-secure.middlewares=auth"
         - "traefik.http.services.plex.loadbalancer.server.port=32400"
   overseerr:
     image: lscr.io/linuxserver/overseerr:latest
@@ -89,7 +89,7 @@ services:
         - "traefik.http.routers.overseerr-secure.tls=true"
         # - "traefik.http.routers.overseerr-secure.tls.certresolver=cloudflare"
         - "traefik.http.routers.overseerr-secure.service=overseerr"
-        - "traefik.http.routers.overseerr-secure.middlewares=auth"
+        # - "traefik.http.routers.overseerr-secure.middlewares=auth"
         - "traefik.http.services.overseerr.loadbalancer.server.port=5055"
   tunarr:
     image: chrisbenincasa/tunarr:latest
@@ -125,7 +125,7 @@ services:
         - "traefik.http.routers.tunarr-secure.tls=true"
         # - "traefik.http.routers.tunarr-secure.tls.certresolver=cloudflare"
         - "traefik.http.routers.tunarr-secure.service=tunarr"
-        - "traefik.http.routers.tunarr-secure.middlewares=auth"
+        # - "traefik.http.routers.tunarr-secure.middlewares=auth"
         - "traefik.http.services.tunarr.loadbalancer.server.port=8000"
   tautulli:
     image: ghcr.io/tautulli/tautulli
@@ -157,7 +157,7 @@ services:
         - "traefik.http.routers.tautulli-secure.tls=true"
         # - "traefik.http.routers.tautulli-secure.tls.certresolver=cloudflare"
         - "traefik.http.routers.tautulli-secure.service=tautulli"
-        - "traefik.http.routers.tautulli-secure.middlewares=auth"
+        # - "traefik.http.routers.tautulli-secure.middlewares=auth"
         - "traefik.http.services.tautulli.loadbalancer.server.port=8181"
   kometa:
     image: lscr.io/linuxserver/kometa:latest

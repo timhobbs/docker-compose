@@ -53,8 +53,7 @@ services:
       - "traefik.http.routers.deluge-secure.tls=true"
       # - "traefik.http.routers.deluge-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.deluge-secure.service=deluge"
-      - "traefik.http.routers.deluge-secure.middlewares=auth"
-      - "traefik.http.middlewares.auth.forwardauth.address=https://authentik.lab.hobbscene.com/outpost.goauthentik.io/auth/traefik"
+      # - "traefik.http.routers.deluge-secure.middlewares=auth"
       - "traefik.http.services.deluge-secure.loadbalancer.server.port=8112"
   deluge:
     image: lscr.io/linuxserver/deluge
