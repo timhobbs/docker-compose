@@ -28,7 +28,7 @@ services:
       - "traefik.http.routers.sonarr-secure.tls=true"
       # - "traefik.http.routers.sonarr-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.sonarr-secure.service=sonarr"
-      - "traefik.http.routers.sonarr-secure.middlewares=auth"
+      # - "traefik.http.routers.sonarr-secure.middlewares=auth"
       - "traefik.http.services.sonarr.loadbalancer.server.port=8989"
   radarr:
     image: lscr.io/linuxserver/radarr:latest
@@ -59,7 +59,7 @@ services:
       - "traefik.http.routers.radarr-secure.tls=true"
       # - "traefik.http.routers.radarr-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.radarr-secure.service=radarr"
-      - "traefik.http.routers.radarr-secure.middlewares=auth"
+      # - "traefik.http.routers.radarr-secure.middlewares=auth"
       - "traefik.http.services.radarr.loadbalancer.server.port=7878"
   lidarr:
     image: lscr.io/linuxserver/lidarr:latest
@@ -90,7 +90,7 @@ services:
       - "traefik.http.routers.lidarr-secure.tls=true"
       # - "traefik.http.routers.lidarr-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.lidarr-secure.service=lidarr"
-      - "traefik.http.routers.lidarr-secure.middlewares=auth"
+      # - "traefik.http.routers.lidarr-secure.middlewares=auth"
       - "traefik.http.services.lidarr.loadbalancer.server.port=8686"
   bazarr:
     image: lscr.io/linuxserver/bazarr:latest
@@ -120,7 +120,7 @@ services:
       - "traefik.http.routers.bazarr-secure.tls=true"
       # - "traefik.http.routers.bazarr-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.bazarr-secure.service=bazarr"
-      - "traefik.http.routers.bazarr-secure.middlewares=auth"
+      # - "traefik.http.routers.bazarr-secure.middlewares=auth"
       - "traefik.http.services.bazarr.loadbalancer.server.port=6767"
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
@@ -148,7 +148,7 @@ services:
       - "traefik.http.routers.prowlarr-secure.tls=true"
       # - "traefik.http.routers.prowlarr-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.prowlarr-secure.service=prowlarr"
-      - "traefik.http.routers.prowlarr-secure.middlewares=auth"
+      # - "traefik.http.routers.prowlarr-secure.middlewares=auth"
       - "traefik.http.services.prowlarr.loadbalancer.server.port=9696"
   flaresolverr:
     # DockerHub mirror flaresolverr/flaresolverr:latest
@@ -176,7 +176,7 @@ services:
       - "traefik.http.routers.flaresolverr-secure.tls=true"
       # - "traefik.http.routers.flaresolverr-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.flaresolverr-secure.service=flaresolverr"
-      - "traefik.http.routers.flaresolverr-secure.middlewares=auth"
+      # - "traefik.http.routers.flaresolverr-secure.middlewares=auth"
       - "traefik.http.services.flaresolverr.loadbalancer.server.port=8191"
 
 volumes:

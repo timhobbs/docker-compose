@@ -1,0 +1,60 @@
+secrets:
+  cf-token:
+    file: ./cf-token
+services:
+  traefik:
+    image: traefik:latest # or traefik:v3.3 to pin a version
+    container_name: traefik
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+    security_opt:
+      - no-new-privileges:true # helps to increase security
+    secrets:
+      - cf-token # the secret at the top of this file
+    env_file:
+      - .env # store other secrets e.g., dashboard password
+    networks:
+      proxy:
+    ports:
+      - 80:80
+      - 81:81
+      - 443:443
+      - 444:444
+      # - 10000:10000 # optional
+      # - 33073:33073 # optional
+    environment:
+      - TRAEFIK_DASHBOARD_CREDENTIALS=${TRAEFIK_DASHBOARD_CREDENTIALS}
+      - CF_DNS_API_TOKEN_FILE=/run/secrets/cf-token # see https://doc.traefik.io/traefik/https/acme/#providers
+      - TRAEFIK_DOCKER_SWARM_MODE=true
+    deploy:
+      mode: global
+      placement:
+        constraints: [node.role == manager]
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /home/tim/Public/git/docker/traefik/traefik.yaml:/traefik.yaml:ro
+      - /home/tim/Public/git/docker/traefik/acme.json:/acme.json
+      - /home/tim/Public/git/docker/traefik/rules:/rules
+      - /home/tim/Public/git/docker/traefik/logs:/var/log/traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.entrypoints=http"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.media.hobbscene.com`)"
+      - "traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https"
+      - "traefik.http.routers.traefik.middlewares=traefik-https-redirect"
+      - "traefik.http.routers.traefik-secure.entrypoints=https"
+      - "traefik.http.routers.traefik-secure.rule=Host(`traefik.media.hobbscene.com`)"
+      - "traefik.http.routers.traefik-secure.tls=true"
+      - "traefik.http.routers.traefik-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.traefik-secure.tls.domains[0].main=lab.hobbscene.com"
+      - "traefik.http.routers.traefik-secure.tls.domains[0].sans=*.lab.hobbscene.com"
+      - "traefik.http.routers.traefik-secure.tls.domains[1].main=media.hobbscene.com"
+      - "traefik.http.routers.traefik-secure.tls.domains[1].sans=*.media.hobbscene.com"
+      - "traefik.http.routers.traefik-secure.service=api@internal"
+
+networks:
+  proxy:
+    external: true # or comment this line to auto create the network
