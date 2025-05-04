@@ -1,0 +1,222 @@
+services:
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    networks:
+      proxy:
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Los_Angeles
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /home/tim/Public/git/docker/arr-stack/sonarr:/config
+      - media_tv:/media/winshare/tv # optional
+      - seagate:/data # optional
+    ports:
+      - 8989:8989
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.sonarr.entrypoints=http"
+      - "traefik.http.routers.sonarr.rule=Host(`sonarr.media.hobbscene.com`)"
+      - "traefik.http.middlewares.sonarr-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.routers.sonarr.middlewares=sonarr-https-redirect"
+      - "traefik.http.routers.sonarr-secure.entrypoints=https"
+      - "traefik.http.routers.sonarr-secure.rule=Host(`sonarr.media.hobbscene.com`)"
+      - "traefik.http.routers.sonarr-secure.tls=true"
+      # - "traefik.http.routers.sonarr-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.sonarr-secure.service=sonarr"
+      - "traefik.http.routers.sonarr-secure.middlewares=auth"
+      - "traefik.http.services.sonarr.loadbalancer.server.port=8989"
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    networks:
+      proxy:
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Los_Angeles
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /home/tim/Public/git/docker/arr-stack/radarr:/config
+      - media_movies:/media/winshare/movies # optional
+      - seagate:/data # optional
+    ports:
+      - 7878:7878
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.radarr.entrypoints=http"
+      - "traefik.http.routers.radarr.rule=Host(`radarr.media.hobbscene.com`)"
+      - "traefik.http.middlewares.radarr-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.routers.radarr.middlewares=radarr-https-redirect"
+      - "traefik.http.routers.radarr-secure.entrypoints=https"
+      - "traefik.http.routers.radarr-secure.rule=Host(`radarr.media.hobbscene.com`)"
+      - "traefik.http.routers.radarr-secure.tls=true"
+      # - "traefik.http.routers.radarr-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.radarr-secure.service=radarr"
+      - "traefik.http.routers.radarr-secure.middlewares=auth"
+      - "traefik.http.services.radarr.loadbalancer.server.port=7878"
+  lidarr:
+    image: lscr.io/linuxserver/lidarr:latest
+    container_name: lidarr
+    networks:
+      proxy:
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Los_Angeles
+    volumes:
+      - /home/tim/Public/git/docker/arr-stack/lidarr:/config
+      - media_music_tagged:/media/winshare/music/_TAGGED # optional
+      - media_music_untagged:/media/winshare/music/_UNTAGGED # optional
+      - seagate:/data # optional
+    ports:
+      - 8686:8686
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.lidarr.entrypoints=http"
+      - "traefik.http.routers.lidarr.rule=Host(`lidarr.media.hobbscene.com`)"
+      - "traefik.http.middlewares.lidarr-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.routers.lidarr.middlewares=lidarr-https-redirect"
+      - "traefik.http.routers.lidarr-secure.entrypoints=https"
+      - "traefik.http.routers.lidarr-secure.rule=Host(`lidarr.media.hobbscene.com`)"
+      - "traefik.http.routers.lidarr-secure.tls=true"
+      # - "traefik.http.routers.lidarr-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.lidarr-secure.service=lidarr"
+      - "traefik.http.routers.lidarr-secure.middlewares=auth"
+      - "traefik.http.services.lidarr.loadbalancer.server.port=8686"
+  bazarr:
+    image: lscr.io/linuxserver/bazarr:latest
+    container_name: bazarr
+    networks:
+      proxy:
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Los_Angeles
+    volumes:
+      - /home/tim/Public/git/docker/arr-stack/bazarr:/config
+      - media_movies:/media/winshare/movies
+      - media_tv:/media/winshare/tv
+    ports:
+      - 6767:6767
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.bazarr.entrypoints=http"
+      - "traefik.http.routers.bazarr.rule=Host(`bazarr.media.hobbscene.com`)"
+      - "traefik.http.middlewares.bazarr-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.routers.bazarr.middlewares=bazarr-https-redirect"
+      - "traefik.http.routers.bazarr-secure.entrypoints=https"
+      - "traefik.http.routers.bazarr-secure.rule=Host(`bazarr.media.hobbscene.com`)"
+      - "traefik.http.routers.bazarr-secure.tls=true"
+      # - "traefik.http.routers.bazarr-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.bazarr-secure.service=bazarr"
+      - "traefik.http.routers.bazarr-secure.middlewares=auth"
+      - "traefik.http.services.bazarr.loadbalancer.server.port=6767"
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    networks:
+      proxy:
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Los_Angeles
+    volumes:
+      - /home/tim/Public/git/docker/arr-stack/prowlarr:/config
+    ports:
+      - 9696:9696
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.prowlarr.entrypoints=http"
+      - "traefik.http.routers.prowlarr.rule=Host(`prowlarr.media.hobbscene.com`)"
+      - "traefik.http.middlewares.prowlarr-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.routers.prowlarr.middlewares=prowlarr-https-redirect"
+      - "traefik.http.routers.prowlarr-secure.entrypoints=https"
+      - "traefik.http.routers.prowlarr-secure.rule=Host(`prowlarr.media.hobbscene.com`)"
+      - "traefik.http.routers.prowlarr-secure.tls=true"
+      # - "traefik.http.routers.prowlarr-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.prowlarr-secure.service=prowlarr"
+      - "traefik.http.routers.prowlarr-secure.middlewares=auth"
+      - "traefik.http.services.prowlarr.loadbalancer.server.port=9696"
+  flaresolverr:
+    # DockerHub mirror flaresolverr/flaresolverr:latest
+    image: ghcr.io/flaresolverr/flaresolverr:latest
+    container_name: flaresolverr
+    networks:
+      proxy:
+    environment:
+      - LOG_LEVEL=info
+      - LOG_HTML=false
+      - CAPTCHA_SOLVER=${CAPTCHA_SOLVER:-none}
+      - TZ=America/Los_Angeles
+    ports:
+      - "8191:8191"
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.flaresolverr.entrypoints=http"
+      - "traefik.http.routers.flaresolverr.rule=Host(`flaresolverr.media.hobbscene.com`)"
+      - "traefik.http.middlewares.flaresolverr-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.routers.flaresolverr.middlewares=flaresolverr-https-redirect"
+      - "traefik.http.routers.flaresolverr-secure.entrypoints=https"
+      - "traefik.http.routers.flaresolverr-secure.rule=Host(`flaresolverr.media.hobbscene.com`)"
+      - "traefik.http.routers.flaresolverr-secure.tls=true"
+      # - "traefik.http.routers.flaresolverr-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.flaresolverr-secure.service=flaresolverr"
+      - "traefik.http.routers.flaresolverr-secure.middlewares=auth"
+      - "traefik.http.services.flaresolverr.loadbalancer.server.port=8191"
+
+volumes:
+  media_music_tagged:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: '/media/tim/h-element-16gb/Music/_TAGGED'
+  media_music_untagged:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: '/media/tim/h-element-16gb/Music/_UNTAGGED'
+  media_dl:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: '/media/tim/h-element-16gb/Download'
+  media_movies:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: '/media/tim/h-element-16gb/Movies'
+  media_tv:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: '/media/tim/h-element-16gb/TV'
+  seagate:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: '/media/tim/seagate500gb'
+
+networks:
+  proxy:
+    external: true

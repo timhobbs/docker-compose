@@ -1,0 +1,40 @@
+services:
+  crowdsec:
+    image: crowdsecurity/crowdsec:latest
+    container_name: crowdsec
+    environment:
+      GID: "${GID-1000}"
+      COLLECTIONS: "crowdsecurity/http-cve crowdsecurity/traefik"
+    expose:
+      - "8080" # http api for bouncers
+      - "6060" # metrics endpoint for prometheus
+      - "7422" # appsec waf endpoint
+    volumes:
+      - /home/pilab/docker/crowdsec/db:/var/lib/crowdsec/data/
+      - /home/pilab/docker/crowdsec/config:/etc/crowdsec/
+      - /home/pilab/docker/traefik/logs:/var/log/traefik/:ro
+    networks:
+      proxy:
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=false"
+
+  bouncer-traefik:
+    image: docker.io/fbonalair/traefik-crowdsec-bouncer:latest
+    container_name: bouncer-traefik
+    environment:
+      CROWDSEC_BOUNCER_API_KEY: ${CROWDSEC_BOUNCER_API_KEY}
+      CROWDSEC_AGENT_HOST: crowdsec:8080
+    networks:
+      - proxy
+    depends_on:
+      - crowdsec
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+
+networks:
+  proxy:
+    external: true

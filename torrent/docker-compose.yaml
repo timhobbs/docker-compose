@@ -1,0 +1,90 @@
+services:
+  gluetun:
+    image: qmcgaw/gluetun
+    container_name: gluetun
+    # line above must be uncommented to allow external containers to connect.
+    # See https://github.com/qdm12/gluetun-wiki/blob/main/setup/connect-a-container-to-gluetun.md#external-container-to-gluetun
+    env_file:
+      - .env # should default to .env
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    ports:
+      - 8888:8888/tcp # HTTP proxy
+      - 8388:8388/tcp # Shadowsocks
+      - 8388:8388/udp # Shadowsocks
+      - 8112:8112/tcp # Deluge
+      - 6881:6881/tcp # Deluge incoming connections
+      - 6881:6881/udp # Deluge incoming connections
+      - 58846:58846   # Deluge daemon
+    volumes:
+      - /home/tim/Public/git/docker/torrent/gluetun:/gluetun
+      - /home/tim/Public/git/docker/torrent/gluetun/port_forward:/tmp/gluetun/forwarded_port
+      # - ./wg0.conf:/gluetun/wireguard/wg0.conf:ro
+    environment:
+      # See https://github.com/qdm12/gluetun-wiki/tree/main/setup#setup
+      - VPN_SERVICE_PROVIDER=private internet access
+      - VPN_TYPE=openvpn
+      # OpenVPN:
+      - OPENVPN_USER=${PIA_USER}
+      - OPENVPN_PASSWORD=${PIA_PASS}
+      - SERVER_REGIONS=US Seattle
+      # Wireguard:
+      # - WIREGUARD_PRIVATE_KEY=${WG_PRIVATE}
+      # - WIREGUARD_ADDRESSES=10.26.238.163/32
+      # Timezone for accurate log times
+      - TZ=America/Los_Angeles
+      # Server list updater
+      # See https://github.com/qdm12/gluetun-wiki/blob/main/setup/servers.md#update-the-vpn-servers-list
+      - UPDATER_PERIOD=12h
+    restart: always
+    networks:
+      proxy:
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.deluge.entrypoints=http"
+      - "traefik.http.routers.deluge.rule=Host(`deluge.media.hobbscene.com`)"
+      - "traefik.http.middlewares.deluge-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.routers.deluge.middlewares=deluge-https-redirect"
+      - "traefik.http.routers.deluge-secure.entrypoints=https"
+      - "traefik.http.routers.deluge-secure.rule=Host(`deluge.media.hobbscene.com`)"
+      - "traefik.http.routers.deluge-secure.tls=true"
+      # - "traefik.http.routers.deluge-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.deluge-secure.service=deluge"
+      - "traefik.http.routers.deluge-secure.middlewares=auth"
+      - "traefik.http.middlewares.auth.forwardauth.address=https://authentik.lab.hobbscene.com/outpost.goauthentik.io/auth/traefik"
+      - "traefik.http.services.deluge-secure.loadbalancer.server.port=8112"
+  deluge:
+    image: lscr.io/linuxserver/deluge
+    container_name: deluge
+    network_mode: "service:gluetun"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Los_Angeles
+      - WEBUI_PORT=8112
+      - DELUGE_LOGLEVEL=info
+    volumes:
+      - /home/tim/Public/git/docker/torrent/deluge:/config
+      - seagate:/data
+      # Dark mode
+      - /home/tim/Public/git/docker/torrent/deluge/ui/icons:/usr/lib/python3.12/site-packages/deluge/ui/web/icons
+      - /home/tim/Public/git/docker/torrent/deluge/ui/images:/usr/lib/python3.12/site-packages/deluge/ui/web/images
+      - /home/tim/Public/git/docker/torrent/deluge/ui/themes:/usr/lib/python3.12/site-packages/deluge/ui/web/themes
+    depends_on:
+      - gluetun
+    restart: unless-stopped
+
+volumes:
+  seagate:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: '/media/tim/seagate500gb'
+
+networks:
+  proxy:
+    external: true

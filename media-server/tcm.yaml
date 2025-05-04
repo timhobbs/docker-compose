@@ -1,0 +1,38 @@
+services:
+  titlecardmaker:
+    image: collinheist/titlecardmaker:master
+    # image: ghcr.io/titlecardmaker/titlecardmaker-webui:latest
+    container_name: titlecardmaker
+    networks:
+      proxy:
+    volumes:
+      - /home/tim/Public/git/docker/media-server/titlecardmaker/yaml:/config
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Los_Angeles
+    ports:
+      - 4242:4242
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+    depends_on:
+      - plex
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.tcm.entrypoints=http"
+      - "traefik.http.routers.tcm.rule=Host(`tcm.media.hobbscene.com`)"
+      - "traefik.http.middlewares.tcm-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.routers.tcm.middlewares=tcm-https-redirect"
+      - "traefik.http.routers.tcm-secure.entrypoints=https"
+      - "traefik.http.routers.tcm-secure.rule=Host(`tcm.media.hobbscene.com`)"
+      - "traefik.http.routers.tcm-secure.tls=true"
+      # - "traefik.http.routers.tcm-secure.tls.certresolver=cloudflare"
+      - "traefik.http.routers.tcm-secure.service=tcm"
+      - "traefik.http.routers.tcm-secure.middlewares=auth"
+      - "traefik.http.services.tcm.loadbalancer.server.port=8181"
+
+networks:
+  proxy:
+    external: true

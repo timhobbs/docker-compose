@@ -1,0 +1,260 @@
+services:
+  plex:
+    image: plexinc/pms-docker:latest
+    container_name: plex
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Los_Angeles
+      - VERSION=docker
+      - PLEX_CLAIM=claim-ZczzEKadaS96CCLXbLD3 # get this from plex.tv/claim
+      - ADVERTISE_IP=https://plex.lab.hobbscene.com:443 #change me
+      - ALLOWED_NETWORKS=192.168.1.0/16 # place trusted network ranges here
+    devices:
+      - /dev/dri:/dev/dri
+    volumes:
+      - /media/winshare/web-tim-2/f/Data/ubuntu:/config
+      - /tmp:/transcode
+    #   - /home/tim/docker/media-server/plex/data:/data
+      - media_movies:/media/tim/h-element-16gb/Movies
+      - media_movies_dvr:/media/tim/h-element-16gb/Video/DVR/ubuntu/movies
+      - media_tv:/media/tim/h-element-16gb/TV
+      - media_tv_dvr:/media/tim/h-element-16gb/Video/DVR/ubuntu/tv
+      - media_music_tagged:/media/tim/h-element-16gb/Music/_TAGGED
+      - media_music_untagged:/media/tim/h-element-16gb/Music/_UNTAGGED
+      - media_video:/media/tim/h-element-16gb/Video
+      - media_other:/media/tim/h-element-16gb/Other
+      - media_sports:/media/tim/h-element-16gb/Video/DVR/ubuntu/sports
+    ports:
+      - 32400:32400/tcp # only port that is strictly required
+      - 32400:32400/udp
+      - 3005:3005/tcp
+      - 8324:8324/tcp
+      - 32469:32469/tcp
+      - 1900:1900/udp
+      - 32410:32410/udp
+      - 32412:32412/udp
+      - 32413:32413/udp
+      - 32414:32414/udp
+    restart: unless-stopped
+    networks:
+      proxy:
+    security_opt:
+      - no-new-privileges:true
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == tim-ubuntu
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.network=proxy"
+        - "traefik.http.routers.plex.entrypoints=http"
+        - "traefik.http.routers.plex.rule=Host(`plex.media.hobbscene.com`)"
+        - "traefik.http.middlewares.plex-https-redirect.redirectscheme.scheme=https"
+        - "traefik.http.routers.plex.middlewares=plex-https-redirect"
+        - "traefik.http.routers.plex-secure.entrypoints=https"
+        - "traefik.http.routers.plex-secure.rule=Host(`plex.media.hobbscene.com`)"
+        - "traefik.http.routers.plex-secure.tls=true"
+        # - "traefik.http.routers.plex-secure.tls.certresolver=cloudflare"
+        - "traefik.http.routers.plex-secure.service=plex"
+        - "traefik.http.routers.plex-secure.middlewares=auth"
+        - "traefik.http.services.plex.loadbalancer.server.port=32400"
+  overseerr:
+    image: lscr.io/linuxserver/overseerr:latest
+    container_name: overseerr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Los_Angeles
+    volumes:
+      - /home/tim/Public/git/docker/media-server/overseerr:/config
+    ports:
+      - 5055:5055
+    restart: unless-stopped
+    networks:
+      proxy:
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == tim-ubuntu
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.network=proxy"
+        - "traefik.http.routers.overseerr.entrypoints=http"
+        - "traefik.http.routers.overseerr.rule=Host(`overseerr.media.hobbscene.com`)"
+        - "traefik.http.middlewares.overseerr-https-redirect.redirectscheme.scheme=https"
+        - "traefik.http.routers.overseerr.middlewares=overseerr-https-redirect"
+        - "traefik.http.routers.overseerr-secure.entrypoints=https"
+        - "traefik.http.routers.overseerr-secure.rule=Host(`overseerr.media.hobbscene.com`)"
+        - "traefik.http.routers.overseerr-secure.tls=true"
+        # - "traefik.http.routers.overseerr-secure.tls.certresolver=cloudflare"
+        - "traefik.http.routers.overseerr-secure.service=overseerr"
+        - "traefik.http.routers.overseerr-secure.middlewares=auth"
+        - "traefik.http.services.overseerr.loadbalancer.server.port=5055"
+  tunarr:
+    image: chrisbenincasa/tunarr:latest
+    container_name: tunarr
+    devices:
+      - /dev/dri:/dev/dri
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Los_Angeles
+      - LOG_LEVEL=INFO
+    volumes:
+      - /home/tim/Public/git/docker/media-server/tunarr:/config/tunarr
+      - /home/tim/Public/git/docker/media-server/.dizquetv:/.dizquetv
+    ports:
+      - 8585:8000
+    restart: unless-stopped
+    networks:
+      proxy:
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == tim-ubuntu
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.network=proxy"
+        - "traefik.http.routers.tunarr.entrypoints=http"
+        - "traefik.http.routers.tunarr.rule=Host(`tunarr.media.hobbscene.com`)"
+        - "traefik.http.middlewares.tunarr-https-redirect.redirectscheme.scheme=https"
+        - "traefik.http.routers.tunarr.middlewares=tunarr-https-redirect"
+        - "traefik.http.routers.tunarr-secure.entrypoints=https"
+        - "traefik.http.routers.tunarr-secure.rule=Host(`tunarr.media.hobbscene.com`)"
+        - "traefik.http.routers.tunarr-secure.tls=true"
+        # - "traefik.http.routers.tunarr-secure.tls.certresolver=cloudflare"
+        - "traefik.http.routers.tunarr-secure.service=tunarr"
+        - "traefik.http.routers.tunarr-secure.middlewares=auth"
+        - "traefik.http.services.tunarr.loadbalancer.server.port=8000"
+  tautulli:
+    image: ghcr.io/tautulli/tautulli
+    container_name: tautulli
+    restart: unless-stopped
+    networks:
+      proxy:
+    volumes:
+      - /home/tim/Public/git/docker/media-server/tautulli:/config
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Los_Angeles
+    ports:
+      - 8181:8181
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == tim-ubuntu
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.network=proxy"
+        - "traefik.http.routers.tautulli.entrypoints=http"
+        - "traefik.http.routers.tautulli.rule=Host(`tautulli.media.hobbscene.com`)"
+        - "traefik.http.middlewares.tautulli-https-redirect.redirectscheme.scheme=https"
+        - "traefik.http.routers.tautulli.middlewares=tautulli-https-redirect"
+        - "traefik.http.routers.tautulli-secure.entrypoints=https"
+        - "traefik.http.routers.tautulli-secure.rule=Host(`tautulli.media.hobbscene.com`)"
+        - "traefik.http.routers.tautulli-secure.tls=true"
+        # - "traefik.http.routers.tautulli-secure.tls.certresolver=cloudflare"
+        - "traefik.http.routers.tautulli-secure.service=tautulli"
+        - "traefik.http.routers.tautulli-secure.middlewares=auth"
+        - "traefik.http.services.tautulli.loadbalancer.server.port=8181"
+  kometa:
+    image: lscr.io/linuxserver/kometa:latest
+    container_name: kometa
+    networks:
+      proxy:
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Los_Angeles
+      - KOMETA_TIMES=06:00,18:00
+      - KOMETA_TRACE=true
+      - KOMETA_LOG_REQUESTS=true
+      - KOMETA_TIMEOUT=360
+    volumes:
+      - /home/tim/Public/git/docker/media-server/kometa:/config
+    restart: unless-stopped
+  imagemaid:
+    image: kometateam/imagemaid
+    container_name: imagemaid
+    networks:
+      proxy:
+    environment:
+      - TZ=America/Los_Angeles
+    volumes:
+      - /home/tim/Public/git/docker/media-server/imagemaid:/config
+      - winshare_plex:/plex
+    restart: unless-stopped
+
+volumes:
+  media_video:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: '/media/tim/h-element-16gb/Video'
+  media_music_tagged:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: '/media/tim/h-element-16gb/Music/_TAGGED'
+  media_music_untagged:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: '/media/tim/h-element-16gb/Music/_UNTAGGED'
+  media_movies:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: '/media/tim/h-element-16gb/Movies'
+  media_movies_dvr:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: '/media/tim/h-element-16gb/Video/DVR/ubuntu/movies'
+  media_tv:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: '/media/tim/h-element-16gb/TV'
+  media_tv_dvr:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: '/media/tim/h-element-16gb/Video/DVR/ubuntu/tv'
+  media_other:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: '/media/tim/h-element-16gb/Other'
+  media_sports:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: '/media/tim/h-element-16gb/Video/DVR/ubuntu/sports'
+  winshare_data:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: '/media/winshare/web-tim-2/f/Data/ubuntu'
+  winshare_plex:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: '/media/winshare/web-tim-2/f/Data/ubuntu/Library/Application Support/Plex Media Server'
+
+networks:
+  proxy:
+    external: true
