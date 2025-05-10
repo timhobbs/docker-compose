@@ -67,6 +67,11 @@ services:
       - "traefik.http.services.authentik.loadbalancer.server.port=9443"
       - "traefik.docker.network=proxy"
       - "traefik.http.routers.authentik-output-rtr.rule=HostRegexp(`{subdomain:[a-z0-9-]+}.{server:[a-z0-9-]+}.hobbscene.com`) && PathPrefix(`/outpost.goauthentik.io/`)"
+      - homepage.group=Networking
+      - homepage.name=Authentik
+      - homepage.description=Authentik is an open-source identity provider for your applications.
+      - homepage.href=https://authentik.media.hobbscene.com
+      - homepage.icon=authentik
 
   worker:
     image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2024.6.1}

@@ -26,6 +26,12 @@ services:
       - "traefik.docker.network=proxy"
       # - "traefik.http.routers.portainer-secure.ipwhitelist.sourcerange=127.0.0.1/32, 172.18.0.0/24, 192.168.1.0/24"
       # - "traefik.http.routers.portainer-secure.rule=Host() && (ClientIP(172.18.0.0/24) || ClientIP(192.168.1.0/24))"
+      - homepage.group=Networking
+      - homepage.name=Portainer
+      - homepage.description=Portainer is a powerful, open-source management UI that allows you to easily manage your Docker containers, images, networks, and volumes.
+      - homepage.href=https://portainer.media.hobbscene.com
+      - homepage.icon=portainer
+
 volumes:
   portainer_data:
 

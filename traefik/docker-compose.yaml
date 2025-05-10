@@ -26,11 +26,6 @@ services:
     environment:
       - TRAEFIK_DASHBOARD_CREDENTIALS=${TRAEFIK_DASHBOARD_CREDENTIALS}
       - CF_DNS_API_TOKEN_FILE=/run/secrets/cf-token # see https://doc.traefik.io/traefik/https/acme/#providers
-      - TRAEFIK_DOCKER_SWARM_MODE=true
-    deploy:
-      mode: global
-      placement:
-        constraints: [node.role == manager]
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock
@@ -49,11 +44,14 @@ services:
       - "traefik.http.routers.traefik-secure.rule=Host(`traefik.media.hobbscene.com`)"
       - "traefik.http.routers.traefik-secure.tls=true"
       - "traefik.http.routers.traefik-secure.tls.certresolver=cloudflare"
-      - "traefik.http.routers.traefik-secure.tls.domains[0].main=lab.hobbscene.com"
-      - "traefik.http.routers.traefik-secure.tls.domains[0].sans=*.lab.hobbscene.com"
-      - "traefik.http.routers.traefik-secure.tls.domains[1].main=media.hobbscene.com"
-      - "traefik.http.routers.traefik-secure.tls.domains[1].sans=*.media.hobbscene.com"
+      - "traefik.http.routers.traefik-secure.tls.domains[0].main=media.hobbscene.com"
+      - "traefik.http.routers.traefik-secure.tls.domains[0].sans=*.media.hobbscene.com"
       - "traefik.http.routers.traefik-secure.service=api@internal"
+      - homepage.group=Networking
+      - homepage.name=Traefik
+      - homepage.description=Traefik is a modern HTTP reverse proxy and load balancer that makes deploying microservices easy.
+      - homepage.href=https://traefik.media.hobbscene.com
+      - homepage.icon=traefik
 
 networks:
   proxy:
