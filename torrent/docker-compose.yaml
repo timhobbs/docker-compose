@@ -62,7 +62,7 @@ services:
       - homepage.icon=deluge
       - homepage.widget.type=deluge
       - homepage.widget.url=http://192.168.1.101:8112
-      - homepage.widget.password=T0pHatt!
+      - homepage.widget.password=${DELUGE_UI_PASS}
       - homepage.widget.fields=["leech", "download", "seed", "upload"]
 
   deluge:
