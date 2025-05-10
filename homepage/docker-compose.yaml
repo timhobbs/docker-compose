@@ -7,8 +7,9 @@ services:
       PGID: 1000 # optional, your group id
       HOMEPAGE_ALLOWED_HOSTS: homepage.media.hobbscene.com
     volumes:
-      - /home/tim/Public/git/docker/homepage:/app/config # Make sure your local config directory exists
-      - /var/run/docker.sock:/var/run/docker.sock:ro # optional, for docker integrations
+      - /home/tim/Public/git/docker/homepage:/app/config
+      - /home/tim/Public/git/docker/homepage/icons:/opt/homepage/public/icons
+      - /var/run/docker.sock:/var/run/docker.sock:ro
     ports:
       - 3000:3000
     networks:

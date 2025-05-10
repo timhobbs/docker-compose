@@ -30,6 +30,12 @@ services:
       - "traefik.http.routers.sonarr-secure.service=sonarr"
       # - "traefik.http.routers.sonarr-secure.middlewares=auth"
       - "traefik.http.services.sonarr.loadbalancer.server.port=8989"
+      - homepage.group=Arr Stack
+      - homepage.name=Sonarr
+      - homepage.description=Sonarr is a PVR for Usenet and BitTorrent users. It can monitor multiple RSS feeds for new episodes of your favorite shows and will grab, sort, and rename them.
+      - homepage.href=https://sonarr.media.hobbscene.com
+      - homepage.icon=sonarr
+
   radarr:
     image: lscr.io/linuxserver/radarr:latest
     container_name: radarr
@@ -61,6 +67,12 @@ services:
       - "traefik.http.routers.radarr-secure.service=radarr"
       # - "traefik.http.routers.radarr-secure.middlewares=auth"
       - "traefik.http.services.radarr.loadbalancer.server.port=7878"
+      - homepage.group=Arr Stack
+      - homepage.name=Radarr
+      - homepage.description=Radarr is a fork of Sonarr to work with movies as Sonarr does with TV shows. It can monitor multiple RSS feeds for new episodes of your favorite shows and will grab, sort, and rename them.
+      - homepage.href=https://radarr.media.hobbscene.com
+      - homepage.icon=radarr
+
   lidarr:
     image: lscr.io/linuxserver/lidarr:latest
     container_name: lidarr
@@ -92,6 +104,12 @@ services:
       - "traefik.http.routers.lidarr-secure.service=lidarr"
       # - "traefik.http.routers.lidarr-secure.middlewares=auth"
       - "traefik.http.services.lidarr.loadbalancer.server.port=8686"
+      - homepage.group=Arr Stack
+      - homepage.name=Lidarr
+      - homepage.description=Lidarr is a music collection manager for Usenet and BitTorrent users. It can monitor multiple RSS feeds for new episodes of your favorite shows and will grab, sort, and rename them.
+      - homepage.href=https://lidarr.media.hobbscene.com
+      - homepage.icon=lidarr
+
   bazarr:
     image: lscr.io/linuxserver/bazarr:latest
     container_name: bazarr
@@ -122,6 +140,12 @@ services:
       - "traefik.http.routers.bazarr-secure.service=bazarr"
       # - "traefik.http.routers.bazarr-secure.middlewares=auth"
       - "traefik.http.services.bazarr.loadbalancer.server.port=6767"
+      - homepage.group=Arr Stack
+      - homepage.name=Bazarr
+      - homepage.description=Bazarr is a companion application to Sonarr and Radarr. It manages and downloads subtitles for your media collection.
+      - homepage.href=https://bazarr.media.hobbscene.com
+      - homepage.icon=bazarr
+
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
@@ -150,6 +174,12 @@ services:
       - "traefik.http.routers.prowlarr-secure.service=prowlarr"
       # - "traefik.http.routers.prowlarr-secure.middlewares=auth"
       - "traefik.http.services.prowlarr.loadbalancer.server.port=9696"
+      - homepage.group=Arr Stack
+      - homepage.name=Prowlarr
+      - homepage.description=Prowlarr is a PVR for Usenet and BitTorrent users. It can monitor multiple RSS feeds for new episodes of your favorite shows and will grab, sort, and rename them.
+      - homepage.href=https://prowlarr.media.hobbscene.com
+      - homepage.icon=prowlarr
+
   flaresolverr:
     # DockerHub mirror flaresolverr/flaresolverr:latest
     image: ghcr.io/flaresolverr/flaresolverr:latest
@@ -178,6 +208,11 @@ services:
       - "traefik.http.routers.flaresolverr-secure.service=flaresolverr"
       # - "traefik.http.routers.flaresolverr-secure.middlewares=auth"
       - "traefik.http.services.flaresolverr.loadbalancer.server.port=8191"
+      - homepage.group=Arr Stack
+      - homepage.name=FlareSolverr
+      - homepage.description=FlareSolverr is a proxy server to bypass Cloudflare's anti-bot page.
+      - homepage.href=https://flaresolverr.media.hobbscene.com
+      - homepage.icon=flaresolverr
 
 volumes:
   media_music_tagged:
