@@ -43,7 +43,7 @@ services:
       proxy:
     labels:
       - "traefik.enable=true"
-      # - "traefik.docker.network=proxy"
+      - "traefik.docker.network=proxy"
       - "traefik.http.routers.deluge.entrypoints=http"
       - "traefik.http.routers.deluge.rule=Host(`deluge.media.hobbscene.com`)"
       - "traefik.http.middlewares.deluge-https-redirect.redirectscheme.scheme=https"
@@ -54,7 +54,7 @@ services:
       # - "traefik.http.routers.deluge-secure.tls.certresolver=cloudflare"
       - "traefik.http.routers.deluge-secure.service=deluge"
       # - "traefik.http.routers.deluge-secure.middlewares=auth"
-      - "traefik.http.services.deluge-secure.loadbalancer.server.port=8112"
+      - "traefik.http.services.deluge.loadbalancer.server.port=8112"
       - homepage.group=Media
       - homepage.name=Deluge
       - homepage.description=Deluge is a lightweight, Free Software, cross-platform BitTorrent client.
@@ -68,7 +68,7 @@ services:
   deluge:
     image: lscr.io/linuxserver/deluge
     container_name: deluge
-    network_mode: "service:gluetun"
+    network_mode: service:gluetun
     environment:
       - PUID=1000
       - PGID=1000
