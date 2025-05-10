@@ -145,6 +145,9 @@ services:
       - homepage.description=Bazarr is a companion application to Sonarr and Radarr. It manages and downloads subtitles for your media collection.
       - homepage.href=https://bazarr.media.hobbscene.com
       - homepage.icon=bazarr
+      - homepage.widget.type=bazarr
+      - homepage.widget.url=http://192.168.1.101:8112
+      - homepage.widget.fields=["missingEpisodes", "missingMovies"]
 
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
