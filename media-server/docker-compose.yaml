@@ -57,7 +57,7 @@ services:
   #     - "traefik.http.services.plex.loadbalancer.server.port=32400"
   #     - homepage.group=Media
   #     - homepage.name=Plex
-  #     - homepage.description=Plex Media Server is a software application that allows users to create a media server for streaming movies, TV shows, music, and photos from a central location.
+  #     - homepage.description=Stream your media anywhere with this powerful media server
   #     - homepage.href=https://plex.media.hobbscene.com
   #     - homepage.icon=plex
 
@@ -121,7 +121,7 @@ services:
       - "traefik.http.services.overseerr.loadbalancer.server.port=5055"
       - homepage.group=Media
       - homepage.name=Overseerr
-      - homepage.description=Overseerr is a request management and media discovery tool for Plex and Jellyfin.
+      - homepage.description=Request and discover movies & TV shows for your media server
       - homepage.href=https://overseerr.media.hobbscene.com
       - homepage.icon=overseerr
       - homepage.widget.type=overseerr
@@ -164,7 +164,7 @@ services:
       - "traefik.http.services.tunarr.loadbalancer.server.port=8000"
       - homepage.group=Media
       - homepage.name=Tunarr
-      - homepage.description=Create live TV channels from media on your Plex/Jellyfin servers, and more!
+      - homepage.description=Create virtual live TV channels from your media library
       - homepage.href=https://tunarr.media.hobbscene.com
       - homepage.icon=https://styles.redditmedia.com/t5_b9tpn2/styles/communityIcon_tk1njjx3sg8d1.png
       - homepage.weight=4
@@ -199,7 +199,7 @@ services:
       - "traefik.http.services.tautulli.loadbalancer.server.port=8181"
       - homepage.group=Media
       - homepage.name=Tautulli
-      - homepage.description=Tautulli is a web application that allows you to monitor and track Plex usage.
+      - homepage.description=Monitor Plex statistics, user activity and media library
       - homepage.href=https://tautulli.media.hobbscene.com
       - homepage.icon=tautulli
       - homepage.widget.type=tautulli
@@ -226,6 +226,7 @@ services:
     volumes:
       - /home/tim/Public/git/docker/media-server/kometa:/config
     restart: unless-stopped
+
   imagemaid:
     image: kometateam/imagemaid
     container_name: imagemaid

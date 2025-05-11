@@ -49,7 +49,7 @@ services:
       - "traefik.http.routers.traefik-secure.service=api@internal"
       - homepage.group=Networking
       - homepage.name=Traefik
-      - homepage.description=Traefik is a modern HTTP reverse proxy and load balancer that makes deploying microservices easy.
+      - homepage.description=Modern reverse proxy and load balancer
       - homepage.href=https://traefik.media.hobbscene.com
       - homepage.icon=traefik
 

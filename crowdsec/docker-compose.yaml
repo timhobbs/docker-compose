@@ -9,10 +9,12 @@ services:
       - "8080" # http api for bouncers
       - "6060" # metrics endpoint for prometheus
       - "7422" # appsec waf endpoint
+    ports:
+      - "8080:8080"
     volumes:
-      - /home/pilab/docker/crowdsec/db:/var/lib/crowdsec/data/
-      - /home/pilab/docker/crowdsec/config:/etc/crowdsec/
-      - /home/pilab/docker/traefik/logs:/var/log/traefik/:ro
+      - /home/tim/Public/git/docker/crowdsec/db:/var/lib/crowdsec/data/
+      - /home/tim/Public/git/docker/crowdsec/config:/etc/crowdsec/
+      - /home/tim/Public/git/docker/traefik/logs:/var/log/traefik/:ro
     networks:
       proxy:
     security_opt:
@@ -20,6 +22,15 @@ services:
     restart: unless-stopped
     labels:
       - "traefik.enable=false"
+      - homepage.group=Networking
+      - homepage.name=Crowdsec
+      - homepage.description=Modern security engine that detects and blocks threats.
+      - homepage.icon=crowdsec
+      - homepage.widget.type=crowdsec
+      - homepage.widget.url=http://192.168.1.101:8080
+      - homepage.widget.username=localhost
+      - homepage.widget.password=${CROWDSEC_API_PASS}
+      - homepage.widget.fields=["alerts", "bans"]
 
   bouncer-traefik:
     image: docker.io/fbonalair/traefik-crowdsec-bouncer:latest
