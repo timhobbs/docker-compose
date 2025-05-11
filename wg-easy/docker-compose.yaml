@@ -47,6 +47,15 @@ services:
       - "traefik.http.routers.vpn-secure.tls=true"
       - "traefik.http.routers.vpn-secure.service=vpn"
       - "traefik.http.services.vpn.loadbalancer.server.port=51821"
+      - homepage.group=Security
+      - homepage.name=WireGuard
+      - homepage.description=Easy-to-use WireGuard VPN server
+      - homepage.icon=wireguard
+      - homepage.href=https://vpn.media.hobbscene.com
+      - homepage.widget.type=wireguard
+      - homepage.widget.url=http://192.168.1.101:51821
+      - homepage.widget.password=${UI_PASS}
+      - homepage.widget.fields=["connected", "enabled", "disabled", "total"]
 
 networks:
   proxy:

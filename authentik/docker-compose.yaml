@@ -67,11 +67,15 @@ services:
       - "traefik.http.services.authentik.loadbalancer.server.port=9443"
       - "traefik.docker.network=proxy"
       - "traefik.http.routers.authentik-output-rtr.rule=HostRegexp(`{subdomain:[a-z0-9-]+}.{server:[a-z0-9-]+}.hobbscene.com`) && PathPrefix(`/outpost.goauthentik.io/`)"
-      - homepage.group=Networking
+      - homepage.group=Security
       - homepage.name=Authentik
       - homepage.description=Single sign-on & access management system
       - homepage.href=https://authentik.media.hobbscene.com
       - homepage.icon=authentik
+      - homepage.widget.type=authentik
+      - homepage.widget.url=https://authentik.media.hobbscene.com
+      - homepage.widget.key=${AUTHENTIK_TOKEN}
+      - homepage.widget.fields=["users", "loginsLast24H", "failedLoginsLast24H"]
 
   worker:
     image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2024.6.1}

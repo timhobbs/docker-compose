@@ -21,7 +21,7 @@ services:
       - no-new-privileges:true
     restart: unless-stopped
     labels:
-      - homepage.group=Networking
+      - homepage.group=Security
       - homepage.name=Crowdsec
       - homepage.description=Modern security engine that detects and blocks threats
       - homepage.icon=crowdsec
