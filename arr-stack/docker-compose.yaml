@@ -72,6 +72,11 @@ services:
       - homepage.description=Radarr is a fork of Sonarr to work with movies as Sonarr does with TV shows. It can monitor multiple RSS feeds for new episodes of your favorite shows and will grab, sort, and rename them.
       - homepage.href=https://radarr.media.hobbscene.com
       - homepage.icon=radarr
+      - homepage.widget.type=radarr
+      - homepage.widget.url=http://192.168.1.101:7878
+      - homepage.widget.key=${RADARR_API_KEY}
+      - homepage.widget.enableQueue=true
+      - homepage.widget.fields=["wanted", "missing", "queued", "movies"]
 
   lidarr:
     image: lscr.io/linuxserver/lidarr:latest
@@ -109,6 +114,10 @@ services:
       - homepage.description=Lidarr is a music collection manager for Usenet and BitTorrent users. It can monitor multiple RSS feeds for new episodes of your favorite shows and will grab, sort, and rename them.
       - homepage.href=https://lidarr.media.hobbscene.com
       - homepage.icon=lidarr
+      - homepage.widget.type=lidarr
+      - homepage.widget.url=http://192.168.1.101:8686
+      - homepage.widget.key=${LIDARR_API_KEY}
+      - homepage.widget.fields=["wanted", "queued", "artists"]
 
   bazarr:
     image: lscr.io/linuxserver/bazarr:latest
@@ -146,7 +155,8 @@ services:
       - homepage.href=https://bazarr.media.hobbscene.com
       - homepage.icon=bazarr
       - homepage.widget.type=bazarr
-      - homepage.widget.url=http://192.168.1.101:8112
+      - homepage.widget.url=http://192.168.1.101:6767
+      - homepage.widget.key=${BAZARR_API_KEY}
       - homepage.widget.fields=["missingEpisodes", "missingMovies"]
 
   prowlarr:
@@ -182,6 +192,10 @@ services:
       - homepage.description=Prowlarr is a PVR for Usenet and BitTorrent users. It can monitor multiple RSS feeds for new episodes of your favorite shows and will grab, sort, and rename them.
       - homepage.href=https://prowlarr.media.hobbscene.com
       - homepage.icon=prowlarr
+      - homepage.widget.type=prowlarr
+      - homepage.widget.url=http://192.168.1.101:9696
+      - homepage.widget.key=${PROWLARR_API_KEY}
+      - homepage.widget.fields=["numberOfGrabs", "numberOfQueries", "numberOfFailGrabs", "numberOfFailQueries"]
 
   flaresolverr:
     # DockerHub mirror flaresolverr/flaresolverr:latest
