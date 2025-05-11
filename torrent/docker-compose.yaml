@@ -11,6 +11,7 @@ services:
     devices:
       - /dev/net/tun:/dev/net/tun
     ports:
+      - 8008:8000/tcp # State
       - 8888:8888/tcp # HTTP proxy
       - 8388:8388/tcp # Shadowsocks
       - 8388:8388/udp # Shadowsocks
@@ -21,6 +22,7 @@ services:
     volumes:
       - /home/tim/Public/git/docker/torrent/gluetun:/gluetun
       - /home/tim/Public/git/docker/torrent/gluetun/port_forward:/tmp/gluetun/forwarded_port
+      - /home/tim/Public/git/docker/torrent/gluetun/config.toml:/gluetun/auth/config.toml
       # - ./wg0.conf:/gluetun/wireguard/wg0.conf:ro
     environment:
       # See https://github.com/qdm12/gluetun-wiki/tree/main/setup#setup
@@ -55,15 +57,15 @@ services:
       - "traefik.http.routers.deluge-secure.service=deluge"
       # - "traefik.http.routers.deluge-secure.middlewares=auth"
       - "traefik.http.services.deluge.loadbalancer.server.port=8112"
-      - homepage.group=Media
-      - homepage.name=Deluge
-      - homepage.description=Deluge is a lightweight, Free Software, cross-platform BitTorrent client.
-      - homepage.href=https://deluge.media.hobbscene.com
-      - homepage.icon=deluge
-      - homepage.widget.type=deluge
-      - homepage.widget.url=http://192.168.1.101:8112
-      - homepage.widget.password=${DELUGE_UI_PASS}
       - homepage.widget.fields=["leech", "download", "seed", "upload"]
+      - homepage.group=Torrent
+      - homepage.name=Gluetun
+      - homepage.description=Gluetun is a lightweight VPN client that runs inside a Docker container, allowing users to connect to various VPN services using either OpenVPN or WireGuard.
+      - homepage.icon=gluetun
+      - homepage.widget.type=gluetun
+      - homepage.widget.url=http://192.168.1.101:8008
+      - homepage.widget.key=${GLUETUN_API_KEY}
+      - homepage.widget.fields=["public_ip", "region", "country"]
 
   deluge:
     image: lscr.io/linuxserver/deluge
@@ -85,6 +87,15 @@ services:
     depends_on:
       - gluetun
     restart: unless-stopped
+    labels:
+      - homepage.group=Torrent
+      - homepage.name=Deluge
+      - homepage.description=Deluge is a lightweight, Free Software, cross-platform BitTorrent client.
+      - homepage.href=https://deluge.media.hobbscene.com
+      - homepage.icon=deluge
+      - homepage.widget.type=deluge
+      - homepage.widget.url=http://192.168.1.101:8112
+      - homepage.widget.password=${DELUGE_UI_PASS}
 
 volumes:
   seagate:

@@ -61,6 +61,36 @@ services:
   #     - homepage.href=https://plex.media.hobbscene.com
   #     - homepage.icon=plex
 
+  plex-fake:
+    image: alpine
+    command: tail -f /dev/null
+    container_name: plex-fake
+    networks:
+      - proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.plex-fake.entrypoints=http"
+      - "traefik.http.routers.plex-fake.rule=Host(`plex.web.hobbscene.com`)"
+      - "traefik.http.middlewares.plex-fake-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.routers.plex-fake.middlewares=plex-fake-https-redirect"
+      - "traefik.http.routers.plex-fake-secure.entrypoints=https"
+      - "traefik.http.routers.plex-fake-secure.rule=Host(`plex.web.hobbscene.com`)"
+      - "traefik.http.routers.plex-fake-secure.tls=true"
+      - "traefik.http.routers.plex-fake-secure.service=plex-fake"
+      # - "traefik.http.routers.plex-fake-secure.tls.certresolver=cloudflare"
+      - "traefik.http.services.plex-fake.loadbalancer.server.url=http://192.168.1.104:32400"
+      - "homepage.group=Media"
+      - "homepage.name=Plex"
+      - "homepage.description=Plex Media Server for streaming movies, TV shows, music, and photos."
+      - "homepage.href=http://192.168.1.104:32400/web/index.html"
+      - "homepage.icon=plex"
+      - "homepage.widget.type=plex"
+      - "homepage.widget.url=http://192.168.1.104:32400"
+      - "homepage.widget.key=${PLEX_TOKEN}"
+      - "homepage.widget.fields=[\"streams\", \"albums\", \"movies\", \"tv\"]"
+      - "homepage.weight=1"
+
   overseerr:
     image: lscr.io/linuxserver/overseerr:latest
     container_name: overseerr
@@ -94,6 +124,11 @@ services:
       - homepage.description=Overseerr is a request management and media discovery tool for Plex and Jellyfin.
       - homepage.href=https://overseerr.media.hobbscene.com
       - homepage.icon=overseerr
+      - homepage.widget.type=overseerr
+      - homepage.widget.url=http://192.168.1.101:5055
+      - homepage.widget.key=${OVERSEERR_API_KEY}
+      - homepage.widget.fields=["pending", "approved", "available", "processing"]
+      - homepage.weight=3
 
   tunarr:
     image: chrisbenincasa/tunarr:latest
@@ -132,6 +167,7 @@ services:
       - homepage.description=Create live TV channels from media on your Plex/Jellyfin servers, and more!
       - homepage.href=https://tunarr.media.hobbscene.com
       - homepage.icon=https://styles.redditmedia.com/t5_b9tpn2/styles/communityIcon_tk1njjx3sg8d1.png
+      - homepage.weight=4
 
   tautulli:
     image: ghcr.io/tautulli/tautulli
@@ -166,6 +202,13 @@ services:
       - homepage.description=Tautulli is a web application that allows you to monitor and track Plex usage.
       - homepage.href=https://tautulli.media.hobbscene.com
       - homepage.icon=tautulli
+      - homepage.widget.type=tautulli
+      - homepage.widget.url=http://192.168.1.101:8181
+      - homepage.widget.key=${TAUTULLI_API_KEY}
+      - homepage.widget.enableUser=true
+      - homepage.widget.showEpisodeNumber=true
+      - homepage.widget.expandOneStreamToTwoRows=false
+      - homepage.weight=2
 
   kometa:
     image: lscr.io/linuxserver/kometa:latest
