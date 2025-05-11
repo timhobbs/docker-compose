@@ -28,7 +28,7 @@ services:
       # - "traefik.http.routers.portainer-secure.rule=Host() && (ClientIP(172.18.0.0/24) || ClientIP(192.168.1.0/24))"
       - homepage.group=Networking
       - homepage.name=Portainer
-      - homepage.description=Portainer is a powerful, open-source management UI that allows you to easily manage your Docker containers, images, networks, and volumes.
+      - homepage.description=Docker container management and monitoring
       - homepage.href=https://portainer.media.hobbscene.com
       - homepage.icon=portainer
       - homepage.widget.type=portainer

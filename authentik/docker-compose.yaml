@@ -69,7 +69,7 @@ services:
       - "traefik.http.routers.authentik-output-rtr.rule=HostRegexp(`{subdomain:[a-z0-9-]+}.{server:[a-z0-9-]+}.hobbscene.com`) && PathPrefix(`/outpost.goauthentik.io/`)"
       - homepage.group=Networking
       - homepage.name=Authentik
-      - homepage.description=Authentik is an open-source identity provider for your applications.
+      - homepage.description=Single sign-on & access management system
       - homepage.href=https://authentik.media.hobbscene.com
       - homepage.icon=authentik
 

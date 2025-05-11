@@ -42,7 +42,7 @@ services:
       - "traefik.http.services.tvhe.loadbalancer.server.port=80"
       - homepage.group=Media
       - homepage.name=tvhe
-      - homepage.description=TVHeadend is a server application that reads video streams from LinuxTV sources and publishes them as internet streams.
+      - homepage.description=TV streaming server and DVR
       - homepage.href=https://tvhe.media.hobbscene.com
       - homepage.icon=tvheadend
 

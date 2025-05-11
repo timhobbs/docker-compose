@@ -32,9 +32,14 @@ services:
       - "traefik.http.services.sonarr.loadbalancer.server.port=8989"
       - homepage.group=Arr Stack
       - homepage.name=Sonarr
-      - homepage.description=Sonarr is a PVR for Usenet and BitTorrent users. It can monitor multiple RSS feeds for new episodes of your favorite shows and will grab, sort, and rename them.
+      - homepage.description=Automated TV series collection manager and downloader
       - homepage.href=https://sonarr.media.hobbscene.com
       - homepage.icon=sonarr
+      - homepage.widget.type=sonarr
+      - homepage.widget.url=http://sonarr:8989
+      - homepage.widget.key=${SONARR_API_KEY}
+      - homepage.widget.enableQueue=true
+      - homepage.widget.fields=["wanted", "queued", "series"]
 
   radarr:
     image: lscr.io/linuxserver/radarr:latest
@@ -69,7 +74,7 @@ services:
       - "traefik.http.services.radarr.loadbalancer.server.port=7878"
       - homepage.group=Arr Stack
       - homepage.name=Radarr
-      - homepage.description=Radarr is a fork of Sonarr to work with movies as Sonarr does with TV shows. It can monitor multiple RSS feeds for new episodes of your favorite shows and will grab, sort, and rename them.
+      - homepage.description=Automated movie collection manager and downloader
       - homepage.href=https://radarr.media.hobbscene.com
       - homepage.icon=radarr
       - homepage.widget.type=radarr
@@ -111,7 +116,7 @@ services:
       - "traefik.http.services.lidarr.loadbalancer.server.port=8686"
       - homepage.group=Arr Stack
       - homepage.name=Lidarr
-      - homepage.description=Lidarr is a music collection manager for Usenet and BitTorrent users. It can monitor multiple RSS feeds for new episodes of your favorite shows and will grab, sort, and rename them.
+      - homepage.description=Automated music collection manager and downloader
       - homepage.href=https://lidarr.media.hobbscene.com
       - homepage.icon=lidarr
       - homepage.widget.type=lidarr
@@ -151,7 +156,7 @@ services:
       - "traefik.http.services.bazarr.loadbalancer.server.port=6767"
       - homepage.group=Arr Stack
       - homepage.name=Bazarr
-      - homepage.description=Bazarr is a companion application to Sonarr and Radarr. It manages and downloads subtitles for your media collection.
+      - homepage.description=Automated subtitle downloader and manager for Sonarr/Radarr
       - homepage.href=https://bazarr.media.hobbscene.com
       - homepage.icon=bazarr
       - homepage.widget.type=bazarr
@@ -189,7 +194,7 @@ services:
       - "traefik.http.services.prowlarr.loadbalancer.server.port=9696"
       - homepage.group=Arr Stack
       - homepage.name=Prowlarr
-      - homepage.description=Prowlarr is a PVR for Usenet and BitTorrent users. It can monitor multiple RSS feeds for new episodes of your favorite shows and will grab, sort, and rename them.
+      - homepage.description=Indexer manager/proxy for the *Arr suite
       - homepage.href=https://prowlarr.media.hobbscene.com
       - homepage.icon=prowlarr
       - homepage.widget.type=prowlarr
@@ -227,7 +232,7 @@ services:
       - "traefik.http.services.flaresolverr.loadbalancer.server.port=8191"
       - homepage.group=Arr Stack
       - homepage.name=FlareSolverr
-      - homepage.description=FlareSolverr is a proxy server to bypass Cloudflare's anti-bot page.
+      - homepage.description=Cloudflare protection bypass proxy service
       - homepage.href=https://flaresolverr.media.hobbscene.com
       - homepage.icon=flaresolverr
 

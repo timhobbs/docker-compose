@@ -60,7 +60,7 @@ services:
       - homepage.widget.fields=["leech", "download", "seed", "upload"]
       - homepage.group=Torrent
       - homepage.name=Gluetun
-      - homepage.description=Gluetun is a lightweight VPN client that runs inside a Docker container, allowing users to connect to various VPN services using either OpenVPN or WireGuard.
+      - homepage.description=Docker VPN client for secure connections
       - homepage.icon=gluetun
       - homepage.widget.type=gluetun
       - homepage.widget.url=http://192.168.1.101:8008
@@ -90,7 +90,7 @@ services:
     labels:
       - homepage.group=Torrent
       - homepage.name=Deluge
-      - homepage.description=Deluge is a lightweight, Free Software, cross-platform BitTorrent client.
+      - homepage.description=Lightweight BitTorrent client
       - homepage.href=https://deluge.media.hobbscene.com
       - homepage.icon=deluge
       - homepage.widget.type=deluge
