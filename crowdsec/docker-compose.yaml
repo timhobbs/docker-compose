@@ -21,10 +21,9 @@ services:
       - no-new-privileges:true
     restart: unless-stopped
     labels:
-      - "traefik.enable=false"
       - homepage.group=Networking
       - homepage.name=Crowdsec
-      - homepage.description=Modern security engine that detects and blocks threats.
+      - homepage.description=Modern security engine that detects and blocks threats
       - homepage.icon=crowdsec
       - homepage.widget.type=crowdsec
       - homepage.widget.url=http://192.168.1.101:8080
