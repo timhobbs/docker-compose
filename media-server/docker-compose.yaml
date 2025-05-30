@@ -13,18 +13,15 @@ services:
   #   devices:
   #     - /dev/dri:/dev/dri
   #   volumes:
-  #     - /media/winshare/web-tim-2/f/Data/ubuntu:/config
+  #     - /media/winshare/web-tim-2/f/Data:/config/Library/Application Support
   #     - /tmp:/transcode
   #   #   - /home/tim/docker/media-server/plex/data:/data
   #     - media_movies:/media/tim/h-element-16gb/Movies
-  #     - media_movies_dvr:/media/tim/h-element-16gb/Video/DVR/ubuntu/movies
+  #     - media_dvr:/media/tim/h-element-16gb/Video/DVR/ubuntu
   #     - media_tv:/media/tim/h-element-16gb/TV
-  #     - media_tv_dvr:/media/tim/h-element-16gb/Video/DVR/ubuntu/tv
-  #     - media_music_tagged:/media/tim/h-element-16gb/Music/_TAGGED
-  #     - media_music_untagged:/media/tim/h-element-16gb/Music/_UNTAGGED
+  #     - media_music:/media/tim/h-element-16gb/Music
   #     - media_video:/media/tim/h-element-16gb/Video
   #     - media_other:/media/tim/h-element-16gb/Other
-  #     - media_sports:/media/tim/h-element-16gb/Video/DVR/ubuntu/sports
   #   ports:
   #     - 32400:32400/tcp # only port that is strictly required
   #     - 32400:32400/udp
@@ -246,54 +243,36 @@ volumes:
       o: bind
       type: none
       device: '/media/tim/h-element-16gb/Video'
-  media_music_tagged:
+  media_music:
     driver: local
     driver_opts:
       o: bind
       type: none
-      device: '/media/tim/h-element-16gb/Music/_TAGGED'
-  media_music_untagged:
-    driver: local
-    driver_opts:
-      o: bind
-      type: none
-      device: '/media/tim/h-element-16gb/Music/_UNTAGGED'
+      device: '/media/tim/h-element-16gb/Music'
   media_movies:
     driver: local
     driver_opts:
       o: bind
       type: none
       device: '/media/tim/h-element-16gb/Movies'
-  media_movies_dvr:
-    driver: local
-    driver_opts:
-      o: bind
-      type: none
-      device: '/media/tim/h-element-16gb/Video/DVR/ubuntu/movies'
   media_tv:
     driver: local
     driver_opts:
       o: bind
       type: none
       device: '/media/tim/h-element-16gb/TV'
-  media_tv_dvr:
+  media_dvr:
     driver: local
     driver_opts:
       o: bind
       type: none
-      device: '/media/tim/h-element-16gb/Video/DVR/ubuntu/tv'
+      device: '/media/tim/h-element-16gb/Video/DVR/ubuntu'
   media_other:
     driver: local
     driver_opts:
       o: bind
       type: none
       device: '/media/tim/h-element-16gb/Other'
-  media_sports:
-    driver: local
-    driver_opts:
-      o: bind
-      type: none
-      device: '/media/tim/h-element-16gb/Video/DVR/ubuntu/sports'
   winshare_data:
     driver: local
     driver_opts:

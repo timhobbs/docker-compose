@@ -94,8 +94,7 @@ services:
       - TZ=America/Los_Angeles
     volumes:
       - /home/tim/Public/git/docker/arr-stack/lidarr:/config
-      - media_music_tagged:/media/winshare/music/_TAGGED # optional
-      - media_music_untagged:/media/winshare/music/_UNTAGGED # optional
+      - media_music:/media/winshare/music
       - seagate:/data # optional
     ports:
       - 8686:8686
@@ -237,18 +236,12 @@ services:
       - homepage.icon=flaresolverr
 
 volumes:
-  media_music_tagged:
+  media_music:
     driver: local
     driver_opts:
       o: bind
       type: none
-      device: '/media/tim/h-element-16gb/Music/_TAGGED'
-  media_music_untagged:
-    driver: local
-    driver_opts:
-      o: bind
-      type: none
-      device: '/media/tim/h-element-16gb/Music/_UNTAGGED'
+      device: '/media/tim/h-element-16gb/Music'
   media_dl:
     driver: local
     driver_opts:
