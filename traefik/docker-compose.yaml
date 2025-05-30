@@ -49,8 +49,8 @@ services:
       - "traefik.http.routers.traefik-secure.tls.domains[0].sans=*.media.hobbscene.com"
       - "traefik.http.routers.traefik-secure.service=api@internal"
 
-      - traefik.http.routers.api.rule="Host(`traefik.media.hobbscene.com`) && PathPrefix(`/api`)"
-      - traefik.http.routers.api.service="api@internal"
+      - traefik.http.routers.api.rule=Host(`traefik.media.hobbscene.com`) && PathPrefix(`/api`)
+      - traefik.http.routers.api.service=api@internal
       - traefik.http.routers.api.tls=true
 
       - homepage.group=Networking

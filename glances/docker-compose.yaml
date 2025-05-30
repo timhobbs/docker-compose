@@ -1,0 +1,62 @@
+services:
+  glances:
+    image: nicolargo/glances:latest
+    container_name: glances
+    pid: "host"
+    privileged: true
+    ports:
+      - "61208-61209:61208-61209"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      # - "/run/user/1000/podman/podman.sock:/run/user/1000/podman/podman.sock:ro"
+      - "/home/tim/Public/git/docker/glances/glances.conf:/conf/glances.conf"
+    environment:
+      - TZ=America/Los_Angeles
+      - GLANCES_OPT=-C /conf/glances.conf -w
+    networks:
+      proxy:
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+      - traefik.http.routers.glances.entrypoints=http
+      - traefik.http.routers.glances.rule=Host(`glances.media.hobbscene.com`)
+      - traefik.http.middlewares.glances-https-redirect.redirectscheme.scheme=https
+      - traefik.http.routers.glances.middlewares=glances-https-redirect
+      - traefik.http.routers.glances-secure.entrypoints=https
+      - traefik.http.routers.glances-secure.rule=Host(`glances.media.hobbscene.com`)
+      - traefik.http.routers.glances-secure.tls=true
+      # - traefik.http.routers.glances-secure.tls.certresolver=cloudflare
+      - traefik.http.routers.glances-secure.service=glances
+      # - traefik.http.routers.glances-secure.middlewares=auth
+      - traefik.http.services.glances.loadbalancer.server.port=61208
+      - homepage.group=Monitoring
+      - homepage.name=Media
+      - homepage.description=Monitoring data for media server
+      - homepage.href=https://glances.media.hobbscene.com
+      - homepage.icon=glances
+      - homepage.widgets[0].type=glances
+      - homepage.widgets[0].url=https://glances.media.hobbscene.com
+      - homepage.widgets[0].version=4
+      - homepage.widgets[0].metric=cpu
+      - homepage.widgets[1].type=glances
+      - homepage.widgets[1].url=https://glances.media.hobbscene.com
+      - homepage.widgets[1].version=4
+      - homepage.widgets[1].metric=memory
+      - homepage.widgets[2].type=glances
+      - homepage.widgets[2].url=https://glances.media.hobbscene.com
+      - homepage.widgets[2].version=4
+      - homepage.widgets[2].metric=process
+      - homepage.widgets[3].type=glances
+      - homepage.widgets[3].url=https://glances.media.hobbscene.com
+      - homepage.widgets[3].version=4
+      - homepage.widgets[3].metric=containers
+      - homepage.widgets[4].type=glances
+      - homepage.widgets[4].url=https://glances.media.hobbscene.com
+      - homepage.widgets[4].version=4
+      - homepage.widgets[4].metric=network:eth0
+      # - homepage.widget.metric=[\cpu\, \memory\, \process\, \containers\, \info\]
+
+networks:
+  proxy:
+    external: true
