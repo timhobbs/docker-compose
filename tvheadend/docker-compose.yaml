@@ -27,19 +27,19 @@ services:
     volumes:
       - /home/tim/Public/git/docker/tvheadend/proxy.conf:/etc/nginx/conf.d/default.conf:ro
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=proxy"
-      - "traefik.http.routers.tvhe.entrypoints=http"
-      - "traefik.http.routers.tvhe.rule=Host(`tvhe.media.hobbscene.com`)"
-      - "traefik.http.middlewares.tvhe-https-redirect.redirectscheme.scheme=https"
-      - "traefik.http.routers.tvhe.middlewares=tvhe-https-redirect"
-      - "traefik.http.routers.tvhe-secure.entrypoints=https"
-      - "traefik.http.routers.tvhe-secure.rule=Host(`tvhe.media.hobbscene.com`)"
-      - "traefik.http.routers.tvhe-secure.tls=true"
-      # - "traefik.http.routers.tvhe-secure.tls.certresolver=cloudflare"
-      - "traefik.http.routers.tvhe-secure.service=tvhe"
-      # - "traefik.http.routers.tvhe-secure.middlewares=auth"
-      - "traefik.http.services.tvhe.loadbalancer.server.port=80"
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+      - traefik.http.routers.tvhe.entrypoints=http
+      - traefik.http.routers.tvhe.rule=Host(`tvhe.media.hobbscene.com`)
+      - traefik.http.middlewares.tvhe-https-redirect.redirectscheme.scheme=https
+      - traefik.http.routers.tvhe.middlewares=tvhe-https-redirect
+      - traefik.http.routers.tvhe-secure.entrypoints=https
+      - traefik.http.routers.tvhe-secure.rule=Host(`tvhe.media.hobbscene.com`)
+      - traefik.http.routers.tvhe-secure.tls=true
+      # - traefik.http.routers.tvhe-secure.tls.certresolver=cloudflare
+      - traefik.http.routers.tvhe-secure.service=tvhe
+      # - traefik.http.routers.tvhe-secure.middlewares=auth
+      - traefik.http.services.tvhe.loadbalancer.server.port=80
       - homepage.group=Media
       - homepage.name=tvhe
       - homepage.description=TV streaming server and DVR

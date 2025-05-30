@@ -54,19 +54,19 @@ services:
     networks:
       proxy:
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.authentik.entrypoints=http"
-      - "traefik.http.routers.authentik.rule=Host(`authentik.media.hobbscene.com`)"
-      - "traefik.http.middlewares.authentik-https-redirect.redirectscheme.scheme=https"
-      - "traefik.http.routers.authentik.middlewares=authentik-https-redirect"
-      - "traefik.http.routers.authentik-secure.entrypoints=https"
-      - "traefik.http.routers.authentik-secure.rule=Host(`authentik.media.hobbscene.com`)"
-      - "traefik.http.routers.authentik-secure.tls=true"
-      - "traefik.http.routers.authentik-secure.service=authentik"
-      - "traefik.http.services.authentik.loadbalancer.server.scheme=https"
-      - "traefik.http.services.authentik.loadbalancer.server.port=9443"
-      - "traefik.docker.network=proxy"
-      - "traefik.http.routers.authentik-output-rtr.rule=HostRegexp(`{subdomain:[a-z0-9-]+}.{server:[a-z0-9-]+}.hobbscene.com`) && PathPrefix(`/outpost.goauthentik.io/`)"
+      - traefik.enable=true
+      - traefik.http.routers.authentik.entrypoints=http
+      - traefik.http.routers.authentik.rule=Host(`authentik.media.hobbscene.com`)
+      - traefik.http.middlewares.authentik-https-redirect.redirectscheme.scheme=https
+      - traefik.http.routers.authentik.middlewares=authentik-https-redirect
+      - traefik.http.routers.authentik-secure.entrypoints=https
+      - traefik.http.routers.authentik-secure.rule=Host(`authentik.media.hobbscene.com`)
+      - traefik.http.routers.authentik-secure.tls=true
+      - traefik.http.routers.authentik-secure.service=authentik
+      - traefik.http.services.authentik.loadbalancer.server.scheme=https
+      - traefik.http.services.authentik.loadbalancer.server.port=9443
+      - traefik.docker.network=proxy
+      - traefik.http.routers.authentik-output-rtr.rule=HostRegexp(`{subdomain:[a-z0-9-]+}.{server:[a-z0-9-]+}.hobbscene.com`) && PathPrefix(`/outpost.goauthentik.io/`)
       - homepage.group=Security
       - homepage.name=Authentik
       - homepage.description=Single sign-on & access management system

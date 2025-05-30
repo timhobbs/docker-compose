@@ -17,19 +17,19 @@ services:
       - 8989:8989
     restart: unless-stopped
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=proxy"
-      - "traefik.http.routers.sonarr.entrypoints=http"
-      - "traefik.http.routers.sonarr.rule=Host(`sonarr.media.hobbscene.com`)"
-      - "traefik.http.middlewares.sonarr-https-redirect.redirectscheme.scheme=https"
-      - "traefik.http.routers.sonarr.middlewares=sonarr-https-redirect"
-      - "traefik.http.routers.sonarr-secure.entrypoints=https"
-      - "traefik.http.routers.sonarr-secure.rule=Host(`sonarr.media.hobbscene.com`)"
-      - "traefik.http.routers.sonarr-secure.tls=true"
-      # - "traefik.http.routers.sonarr-secure.tls.certresolver=cloudflare"
-      - "traefik.http.routers.sonarr-secure.service=sonarr"
-      # - "traefik.http.routers.sonarr-secure.middlewares=auth"
-      - "traefik.http.services.sonarr.loadbalancer.server.port=8989"
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+      - traefik.http.routers.sonarr.entrypoints=http
+      - traefik.http.routers.sonarr.rule=Host(`sonarr.media.hobbscene.com`)
+      - traefik.http.middlewares.sonarr-https-redirect.redirectscheme.scheme=https
+      - traefik.http.routers.sonarr.middlewares=sonarr-https-redirect
+      - traefik.http.routers.sonarr-secure.entrypoints=https
+      - traefik.http.routers.sonarr-secure.rule=Host(`sonarr.media.hobbscene.com`)
+      - traefik.http.routers.sonarr-secure.tls=true
+      # - traefik.http.routers.sonarr-secure.tls.certresolver=cloudflare
+      - traefik.http.routers.sonarr-secure.service=sonarr
+      # - traefik.http.routers.sonarr-secure.middlewares=auth
+      - traefik.http.services.sonarr.loadbalancer.server.port=8989
       - homepage.group=Arr Stack
       - homepage.name=Sonarr
       - homepage.description=Automated TV series collection manager and downloader
@@ -39,7 +39,7 @@ services:
       - homepage.widget.url=http://sonarr:8989
       - homepage.widget.key=${SONARR_API_KEY}
       - homepage.widget.enableQueue=true
-      - homepage.widget.fields=["wanted", "queued", "series"]
+      - homepage.widget.fields=[wanted, queued, series]
 
   radarr:
     image: lscr.io/linuxserver/radarr:latest
@@ -59,19 +59,19 @@ services:
       - 7878:7878
     restart: unless-stopped
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=proxy"
-      - "traefik.http.routers.radarr.entrypoints=http"
-      - "traefik.http.routers.radarr.rule=Host(`radarr.media.hobbscene.com`)"
-      - "traefik.http.middlewares.radarr-https-redirect.redirectscheme.scheme=https"
-      - "traefik.http.routers.radarr.middlewares=radarr-https-redirect"
-      - "traefik.http.routers.radarr-secure.entrypoints=https"
-      - "traefik.http.routers.radarr-secure.rule=Host(`radarr.media.hobbscene.com`)"
-      - "traefik.http.routers.radarr-secure.tls=true"
-      # - "traefik.http.routers.radarr-secure.tls.certresolver=cloudflare"
-      - "traefik.http.routers.radarr-secure.service=radarr"
-      # - "traefik.http.routers.radarr-secure.middlewares=auth"
-      - "traefik.http.services.radarr.loadbalancer.server.port=7878"
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+      - traefik.http.routers.radarr.entrypoints=http
+      - traefik.http.routers.radarr.rule=Host(`radarr.media.hobbscene.com`)
+      - traefik.http.middlewares.radarr-https-redirect.redirectscheme.scheme=https
+      - traefik.http.routers.radarr.middlewares=radarr-https-redirect
+      - traefik.http.routers.radarr-secure.entrypoints=https
+      - traefik.http.routers.radarr-secure.rule=Host(`radarr.media.hobbscene.com`)
+      - traefik.http.routers.radarr-secure.tls=true
+      # - traefik.http.routers.radarr-secure.tls.certresolver=cloudflare
+      - traefik.http.routers.radarr-secure.service=radarr
+      # - traefik.http.routers.radarr-secure.middlewares=auth
+      - traefik.http.services.radarr.loadbalancer.server.port=7878
       - homepage.group=Arr Stack
       - homepage.name=Radarr
       - homepage.description=Automated movie collection manager and downloader
@@ -81,7 +81,7 @@ services:
       - homepage.widget.url=http://192.168.1.101:7878
       - homepage.widget.key=${RADARR_API_KEY}
       - homepage.widget.enableQueue=true
-      - homepage.widget.fields=["wanted", "missing", "queued", "movies"]
+      - homepage.widget.fields=[wanted, missing, queued, movies]
 
   lidarr:
     image: lscr.io/linuxserver/lidarr:latest
@@ -100,19 +100,19 @@ services:
       - 8686:8686
     restart: unless-stopped
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=proxy"
-      - "traefik.http.routers.lidarr.entrypoints=http"
-      - "traefik.http.routers.lidarr.rule=Host(`lidarr.media.hobbscene.com`)"
-      - "traefik.http.middlewares.lidarr-https-redirect.redirectscheme.scheme=https"
-      - "traefik.http.routers.lidarr.middlewares=lidarr-https-redirect"
-      - "traefik.http.routers.lidarr-secure.entrypoints=https"
-      - "traefik.http.routers.lidarr-secure.rule=Host(`lidarr.media.hobbscene.com`)"
-      - "traefik.http.routers.lidarr-secure.tls=true"
-      # - "traefik.http.routers.lidarr-secure.tls.certresolver=cloudflare"
-      - "traefik.http.routers.lidarr-secure.service=lidarr"
-      # - "traefik.http.routers.lidarr-secure.middlewares=auth"
-      - "traefik.http.services.lidarr.loadbalancer.server.port=8686"
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+      - traefik.http.routers.lidarr.entrypoints=http
+      - traefik.http.routers.lidarr.rule=Host(`lidarr.media.hobbscene.com`)
+      - traefik.http.middlewares.lidarr-https-redirect.redirectscheme.scheme=https
+      - traefik.http.routers.lidarr.middlewares=lidarr-https-redirect
+      - traefik.http.routers.lidarr-secure.entrypoints=https
+      - traefik.http.routers.lidarr-secure.rule=Host(`lidarr.media.hobbscene.com`)
+      - traefik.http.routers.lidarr-secure.tls=true
+      # - traefik.http.routers.lidarr-secure.tls.certresolver=cloudflare
+      - traefik.http.routers.lidarr-secure.service=lidarr
+      # - traefik.http.routers.lidarr-secure.middlewares=auth
+      - traefik.http.services.lidarr.loadbalancer.server.port=8686
       - homepage.group=Arr Stack
       - homepage.name=Lidarr
       - homepage.description=Automated music collection manager and downloader
@@ -121,7 +121,7 @@ services:
       - homepage.widget.type=lidarr
       - homepage.widget.url=http://192.168.1.101:8686
       - homepage.widget.key=${LIDARR_API_KEY}
-      - homepage.widget.fields=["wanted", "queued", "artists"]
+      - homepage.widget.fields=[wanted, queued, artists]
 
   bazarr:
     image: lscr.io/linuxserver/bazarr:latest
@@ -140,19 +140,19 @@ services:
       - 6767:6767
     restart: unless-stopped
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=proxy"
-      - "traefik.http.routers.bazarr.entrypoints=http"
-      - "traefik.http.routers.bazarr.rule=Host(`bazarr.media.hobbscene.com`)"
-      - "traefik.http.middlewares.bazarr-https-redirect.redirectscheme.scheme=https"
-      - "traefik.http.routers.bazarr.middlewares=bazarr-https-redirect"
-      - "traefik.http.routers.bazarr-secure.entrypoints=https"
-      - "traefik.http.routers.bazarr-secure.rule=Host(`bazarr.media.hobbscene.com`)"
-      - "traefik.http.routers.bazarr-secure.tls=true"
-      # - "traefik.http.routers.bazarr-secure.tls.certresolver=cloudflare"
-      - "traefik.http.routers.bazarr-secure.service=bazarr"
-      # - "traefik.http.routers.bazarr-secure.middlewares=auth"
-      - "traefik.http.services.bazarr.loadbalancer.server.port=6767"
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+      - traefik.http.routers.bazarr.entrypoints=http
+      - traefik.http.routers.bazarr.rule=Host(`bazarr.media.hobbscene.com`)
+      - traefik.http.middlewares.bazarr-https-redirect.redirectscheme.scheme=https
+      - traefik.http.routers.bazarr.middlewares=bazarr-https-redirect
+      - traefik.http.routers.bazarr-secure.entrypoints=https
+      - traefik.http.routers.bazarr-secure.rule=Host(`bazarr.media.hobbscene.com`)
+      - traefik.http.routers.bazarr-secure.tls=true
+      # - traefik.http.routers.bazarr-secure.tls.certresolver=cloudflare
+      - traefik.http.routers.bazarr-secure.service=bazarr
+      # - traefik.http.routers.bazarr-secure.middlewares=auth
+      - traefik.http.services.bazarr.loadbalancer.server.port=6767
       - homepage.group=Arr Stack
       - homepage.name=Bazarr
       - homepage.description=Automated subtitle downloader and manager for Sonarr/Radarr
@@ -161,7 +161,7 @@ services:
       - homepage.widget.type=bazarr
       - homepage.widget.url=http://192.168.1.101:6767
       - homepage.widget.key=${BAZARR_API_KEY}
-      - homepage.widget.fields=["missingEpisodes", "missingMovies"]
+      - homepage.widget.fields=[missingEpisodes, missingMovies]
 
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
@@ -178,19 +178,19 @@ services:
       - 9696:9696
     restart: unless-stopped
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=proxy"
-      - "traefik.http.routers.prowlarr.entrypoints=http"
-      - "traefik.http.routers.prowlarr.rule=Host(`prowlarr.media.hobbscene.com`)"
-      - "traefik.http.middlewares.prowlarr-https-redirect.redirectscheme.scheme=https"
-      - "traefik.http.routers.prowlarr.middlewares=prowlarr-https-redirect"
-      - "traefik.http.routers.prowlarr-secure.entrypoints=https"
-      - "traefik.http.routers.prowlarr-secure.rule=Host(`prowlarr.media.hobbscene.com`)"
-      - "traefik.http.routers.prowlarr-secure.tls=true"
-      # - "traefik.http.routers.prowlarr-secure.tls.certresolver=cloudflare"
-      - "traefik.http.routers.prowlarr-secure.service=prowlarr"
-      # - "traefik.http.routers.prowlarr-secure.middlewares=auth"
-      - "traefik.http.services.prowlarr.loadbalancer.server.port=9696"
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+      - traefik.http.routers.prowlarr.entrypoints=http
+      - traefik.http.routers.prowlarr.rule=Host(`prowlarr.media.hobbscene.com`)
+      - traefik.http.middlewares.prowlarr-https-redirect.redirectscheme.scheme=https
+      - traefik.http.routers.prowlarr.middlewares=prowlarr-https-redirect
+      - traefik.http.routers.prowlarr-secure.entrypoints=https
+      - traefik.http.routers.prowlarr-secure.rule=Host(`prowlarr.media.hobbscene.com`)
+      - traefik.http.routers.prowlarr-secure.tls=true
+      # - traefik.http.routers.prowlarr-secure.tls.certresolver=cloudflare
+      - traefik.http.routers.prowlarr-secure.service=prowlarr
+      # - traefik.http.routers.prowlarr-secure.middlewares=auth
+      - traefik.http.services.prowlarr.loadbalancer.server.port=9696
       - homepage.group=Arr Stack
       - homepage.name=Prowlarr
       - homepage.description=Indexer manager/proxy for the *Arr suite
@@ -199,7 +199,7 @@ services:
       - homepage.widget.type=prowlarr
       - homepage.widget.url=http://192.168.1.101:9696
       - homepage.widget.key=${PROWLARR_API_KEY}
-      - homepage.widget.fields=["numberOfGrabs", "numberOfQueries", "numberOfFailGrabs", "numberOfFailQueries"]
+      - homepage.widget.fields=[numberOfGrabs, numberOfQueries, numberOfFailGrabs, numberOfFailQueries]
 
   flaresolverr:
     # DockerHub mirror flaresolverr/flaresolverr:latest
@@ -213,22 +213,22 @@ services:
       - CAPTCHA_SOLVER=${CAPTCHA_SOLVER:-none}
       - TZ=America/Los_Angeles
     ports:
-      - "8191:8191"
+      - 8191:8191
     restart: unless-stopped
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=proxy"
-      - "traefik.http.routers.flaresolverr.entrypoints=http"
-      - "traefik.http.routers.flaresolverr.rule=Host(`flaresolverr.media.hobbscene.com`)"
-      - "traefik.http.middlewares.flaresolverr-https-redirect.redirectscheme.scheme=https"
-      - "traefik.http.routers.flaresolverr.middlewares=flaresolverr-https-redirect"
-      - "traefik.http.routers.flaresolverr-secure.entrypoints=https"
-      - "traefik.http.routers.flaresolverr-secure.rule=Host(`flaresolverr.media.hobbscene.com`)"
-      - "traefik.http.routers.flaresolverr-secure.tls=true"
-      # - "traefik.http.routers.flaresolverr-secure.tls.certresolver=cloudflare"
-      - "traefik.http.routers.flaresolverr-secure.service=flaresolverr"
-      # - "traefik.http.routers.flaresolverr-secure.middlewares=auth"
-      - "traefik.http.services.flaresolverr.loadbalancer.server.port=8191"
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+      - traefik.http.routers.flaresolverr.entrypoints=http
+      - traefik.http.routers.flaresolverr.rule=Host(`flaresolverr.media.hobbscene.com`)
+      - traefik.http.middlewares.flaresolverr-https-redirect.redirectscheme.scheme=https
+      - traefik.http.routers.flaresolverr.middlewares=flaresolverr-https-redirect
+      - traefik.http.routers.flaresolverr-secure.entrypoints=https
+      - traefik.http.routers.flaresolverr-secure.rule=Host(`flaresolverr.media.hobbscene.com`)
+      - traefik.http.routers.flaresolverr-secure.tls=true
+      # - traefik.http.routers.flaresolverr-secure.tls.certresolver=cloudflare
+      - traefik.http.routers.flaresolverr-secure.service=flaresolverr
+      # - traefik.http.routers.flaresolverr-secure.middlewares=auth
+      - traefik.http.services.flaresolverr.loadbalancer.server.port=8191
       - homepage.group=Arr Stack
       - homepage.name=FlareSolverr
       - homepage.description=Cloudflare protection bypass proxy service

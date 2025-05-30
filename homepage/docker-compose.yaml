@@ -16,19 +16,19 @@ services:
       proxy:
     restart: unless-stopped
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=proxy"
-      - "traefik.http.routers.homepage.entrypoints=http"
-      - "traefik.http.routers.homepage.rule=Host(`homepage.media.hobbscene.com`)"
-      - "traefik.http.middlewares.homepage-https-redirect.redirectscheme.scheme=https"
-      - "traefik.http.routers.homepage.middlewares=homepage-https-redirect"
-      - "traefik.http.routers.homepage-secure.entrypoints=https"
-      - "traefik.http.routers.homepage-secure.rule=Host(`homepage.media.hobbscene.com`)"
-      - "traefik.http.routers.homepage-secure.tls=true"
-      # - "traefik.http.routers.homepage-secure.tls.certresolver=cloudflare"
-      - "traefik.http.routers.homepage-secure.service=homepage"
-      # - "traefik.http.routers.homepage-secure.middlewares=auth"
-      - "traefik.http.services.homepage.loadbalancer.server.port=3000"
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+      - traefik.http.routers.homepage.entrypoints=http
+      - traefik.http.routers.homepage.rule=Host(`homepage.media.hobbscene.com`)
+      - traefik.http.middlewares.homepage-https-redirect.redirectscheme.scheme=https
+      - traefik.http.routers.homepage.middlewares=homepage-https-redirect
+      - traefik.http.routers.homepage-secure.entrypoints=https
+      - traefik.http.routers.homepage-secure.rule=Host(`homepage.media.hobbscene.com`)
+      - traefik.http.routers.homepage-secure.tls=true
+      # - traefik.http.routers.homepage-secure.tls.certresolver=cloudflare
+      - traefik.http.routers.homepage-secure.service=homepage
+      # - traefik.http.routers.homepage-secure.middlewares=auth
+      - traefik.http.services.homepage.loadbalancer.server.port=3000
 
 networks:
   proxy:

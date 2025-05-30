@@ -44,20 +44,19 @@ services:
     networks:
       proxy:
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=proxy"
-      - "traefik.http.routers.deluge.entrypoints=http"
-      - "traefik.http.routers.deluge.rule=Host(`deluge.media.hobbscene.com`)"
-      - "traefik.http.middlewares.deluge-https-redirect.redirectscheme.scheme=https"
-      - "traefik.http.routers.deluge.middlewares=deluge-https-redirect"
-      - "traefik.http.routers.deluge-secure.entrypoints=https"
-      - "traefik.http.routers.deluge-secure.rule=Host(`deluge.media.hobbscene.com`)"
-      - "traefik.http.routers.deluge-secure.tls=true"
-      # - "traefik.http.routers.deluge-secure.tls.certresolver=cloudflare"
-      - "traefik.http.routers.deluge-secure.service=deluge"
-      # - "traefik.http.routers.deluge-secure.middlewares=auth"
-      - "traefik.http.services.deluge.loadbalancer.server.port=8112"
-      - homepage.widget.fields=["leech", "download", "seed", "upload"]
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+      - traefik.http.routers.deluge.entrypoints=http
+      - traefik.http.routers.deluge.rule=Host(`deluge.media.hobbscene.com`)
+      - traefik.http.middlewares.deluge-https-redirect.redirectscheme.scheme=https
+      - traefik.http.routers.deluge.middlewares=deluge-https-redirect
+      - traefik.http.routers.deluge-secure.entrypoints=https
+      - traefik.http.routers.deluge-secure.rule=Host(`deluge.media.hobbscene.com`)
+      - traefik.http.routers.deluge-secure.tls=true
+      # - traefik.http.routers.deluge-secure.tls.certresolver=cloudflare
+      - traefik.http.routers.deluge-secure.service=deluge
+      # - traefik.http.routers.deluge-secure.middlewares=auth
+      - traefik.http.services.deluge.loadbalancer.server.port=8112
       - homepage.group=Torrent
       - homepage.name=Gluetun
       - homepage.description=Docker VPN client for secure connections
@@ -96,6 +95,7 @@ services:
       - homepage.widget.type=deluge
       - homepage.widget.url=http://192.168.1.101:8112
       - homepage.widget.password=${DELUGE_UI_PASS}
+      - homepage.widget.fields=["leech", "download", "seed", "upload"]
 
 volumes:
   seagate:
@@ -103,7 +103,7 @@ volumes:
     driver_opts:
       o: bind
       type: none
-      device: '/media/tim/seagate500gb'
+      device: /media/tim/seagate500gb
 
 networks:
   proxy:

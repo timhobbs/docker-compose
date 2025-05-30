@@ -35,19 +35,19 @@ services:
       - /home/tim/Public/git/docker/traefik/rules:/rules
       - /home/tim/Public/git/docker/traefik/logs:/var/log/traefik
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.traefik.entrypoints=http"
-      - "traefik.http.routers.traefik.rule=Host(`traefik.media.hobbscene.com`)"
-      - "traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https"
-      - "traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https"
-      - "traefik.http.routers.traefik.middlewares=traefik-https-redirect"
-      - "traefik.http.routers.traefik-secure.entrypoints=https"
-      - "traefik.http.routers.traefik-secure.rule=Host(`traefik.media.hobbscene.com`)"
-      - "traefik.http.routers.traefik-secure.tls=true"
-      - "traefik.http.routers.traefik-secure.tls.certresolver=cloudflare"
-      - "traefik.http.routers.traefik-secure.tls.domains[0].main=media.hobbscene.com"
-      - "traefik.http.routers.traefik-secure.tls.domains[0].sans=*.media.hobbscene.com"
-      - "traefik.http.routers.traefik-secure.service=api@internal"
+      - traefik.enable=true
+      - traefik.http.routers.traefik.entrypoints=http
+      - traefik.http.routers.traefik.rule=Host(`traefik.media.hobbscene.com`)
+      - traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https
+      - traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https
+      - traefik.http.routers.traefik.middlewares=traefik-https-redirect
+      - traefik.http.routers.traefik-secure.entrypoints=https
+      - traefik.http.routers.traefik-secure.rule=Host(`traefik.media.hobbscene.com`)
+      - traefik.http.routers.traefik-secure.tls=true
+      - traefik.http.routers.traefik-secure.tls.certresolver=cloudflare
+      - traefik.http.routers.traefik-secure.tls.domains[0].main=media.hobbscene.com
+      - traefik.http.routers.traefik-secure.tls.domains[0].sans=*.media.hobbscene.com
+      - traefik.http.routers.traefik-secure.service=api@internal
 
       - traefik.http.routers.api.rule=Host(`traefik.media.hobbscene.com`) && PathPrefix(`/api`)
       - traefik.http.routers.api.service=api@internal
