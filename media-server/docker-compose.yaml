@@ -39,19 +39,19 @@ services:
   #   security_opt:
   #     - no-new-privileges:true
   #   labels:
-  #     - "traefik.enable=true"
-  #     - "traefik.docker.network=proxy"
-  #     - "traefik.http.routers.plex.entrypoints=http"
-  #     - "traefik.http.routers.plex.rule=Host(`plex.media.hobbscene.com`)"
-  #     - "traefik.http.middlewares.plex-https-redirect.redirectscheme.scheme=https"
-  #     - "traefik.http.routers.plex.middlewares=plex-https-redirect"
-  #     - "traefik.http.routers.plex-secure.entrypoints=https"
-  #     - "traefik.http.routers.plex-secure.rule=Host(`plex.media.hobbscene.com`)"
-  #     - "traefik.http.routers.plex-secure.tls=true"
-  #     # - "traefik.http.routers.plex-secure.tls.certresolver=cloudflare"
-  #     - "traefik.http.routers.plex-secure.service=plex"
-  #     # - "traefik.http.routers.plex-secure.middlewares=auth"
-  #     - "traefik.http.services.plex.loadbalancer.server.port=32400"
+  #     - traefik.enable=true
+  #     - traefik.docker.network=proxy
+  #     - traefik.http.routers.plex.entrypoints=http
+  #     - traefik.http.routers.plex.rule=Host(`plex.media.hobbscene.com`)
+  #     - traefik.http.middlewares.plex-https-redirect.redirectscheme.scheme=https
+  #     - traefik.http.routers.plex.middlewares=plex-https-redirect
+  #     - traefik.http.routers.plex-secure.entrypoints=https
+  #     - traefik.http.routers.plex-secure.rule=Host(`plex.media.hobbscene.com`)
+  #     - traefik.http.routers.plex-secure.tls=true
+  #     # - traefik.http.routers.plex-secure.tls.certresolver=cloudflare
+  #     - traefik.http.routers.plex-secure.service=plex
+  #     # - traefik.http.routers.plex-secure.middlewares=auth
+  #     - traefik.http.services.plex.loadbalancer.server.port=32400
   #     - homepage.group=Media
   #     - homepage.name=Plex
   #     - homepage.description=Stream your media anywhere with this powerful media server
@@ -65,28 +65,28 @@ services:
     networks:
       - proxy
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=proxy"
-      - "traefik.http.routers.plex-fake.entrypoints=http"
-      - "traefik.http.routers.plex-fake.rule=Host(`plex.web.hobbscene.com`)"
-      - "traefik.http.middlewares.plex-fake-https-redirect.redirectscheme.scheme=https"
-      - "traefik.http.routers.plex-fake.middlewares=plex-fake-https-redirect"
-      - "traefik.http.routers.plex-fake-secure.entrypoints=https"
-      - "traefik.http.routers.plex-fake-secure.rule=Host(`plex.web.hobbscene.com`)"
-      - "traefik.http.routers.plex-fake-secure.tls=true"
-      - "traefik.http.routers.plex-fake-secure.service=plex-fake"
-      # - "traefik.http.routers.plex-fake-secure.tls.certresolver=cloudflare"
-      - "traefik.http.services.plex-fake.loadbalancer.server.url=http://192.168.1.104:32400"
-      - "homepage.group=Media"
-      - "homepage.name=Plex"
-      - "homepage.description=Plex Media Server for streaming movies, TV shows, music, and photos."
-      - "homepage.href=http://192.168.1.104:32400/web/index.html"
-      - "homepage.icon=plex"
-      - "homepage.widget.type=plex"
-      - "homepage.widget.url=http://192.168.1.104:32400"
-      - "homepage.widget.key=${PLEX_TOKEN}"
-      - "homepage.widget.fields=[\"streams\", \"albums\", \"movies\", \"tv\"]"
-      - "homepage.weight=1"
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+      - traefik.http.routers.plex-fake.entrypoints=http
+      - traefik.http.routers.plex-fake.rule=Host(`plex.web.hobbscene.com`)
+      - traefik.http.middlewares.plex-fake-https-redirect.redirectscheme.scheme=https
+      - traefik.http.routers.plex-fake.middlewares=plex-fake-https-redirect
+      - traefik.http.routers.plex-fake-secure.entrypoints=https
+      - traefik.http.routers.plex-fake-secure.rule=Host(`plex.web.hobbscene.com`)
+      - traefik.http.routers.plex-fake-secure.tls=true
+      - traefik.http.routers.plex-fake-secure.service=plex-fake
+      # - traefik.http.routers.plex-fake-secure.tls.certresolver=cloudflare
+      - traefik.http.services.plex-fake.loadbalancer.server.url=http://192.168.1.104:32400
+      - homepage.group=Media
+      - homepage.name=Plex
+      - homepage.description=Plex Media Server for streaming movies, TV shows, music, and photos.
+      - homepage.href=http://192.168.1.104:32400/web/index.html
+      - homepage.icon=plex
+      - homepage.widget.type=plex
+      - homepage.widget.url=http://192.168.1.104:32400
+      - homepage.widget.key=${PLEX_TOKEN}
+      - homepage.widget.fields=["streams", "albums", "movies", "tv"]
+      - homepage.weight=1
 
   overseerr:
     image: lscr.io/linuxserver/overseerr:latest
@@ -103,19 +103,19 @@ services:
     networks:
       proxy:
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=proxy"
-      - "traefik.http.routers.overseerr.entrypoints=http"
-      - "traefik.http.routers.overseerr.rule=Host(`overseerr.media.hobbscene.com`)"
-      - "traefik.http.middlewares.overseerr-https-redirect.redirectscheme.scheme=https"
-      - "traefik.http.routers.overseerr.middlewares=overseerr-https-redirect"
-      - "traefik.http.routers.overseerr-secure.entrypoints=https"
-      - "traefik.http.routers.overseerr-secure.rule=Host(`overseerr.media.hobbscene.com`)"
-      - "traefik.http.routers.overseerr-secure.tls=true"
-      # - "traefik.http.routers.overseerr-secure.tls.certresolver=cloudflare"
-      - "traefik.http.routers.overseerr-secure.service=overseerr"
-      # - "traefik.http.routers.overseerr-secure.middlewares=auth"
-      - "traefik.http.services.overseerr.loadbalancer.server.port=5055"
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+      - traefik.http.routers.overseerr.entrypoints=http
+      - traefik.http.routers.overseerr.rule=Host(`overseerr.media.hobbscene.com`)
+      - traefik.http.middlewares.overseerr-https-redirect.redirectscheme.scheme=https
+      - traefik.http.routers.overseerr.middlewares=overseerr-https-redirect
+      - traefik.http.routers.overseerr-secure.entrypoints=https
+      - traefik.http.routers.overseerr-secure.rule=Host(`overseerr.media.hobbscene.com`)
+      - traefik.http.routers.overseerr-secure.tls=true
+      # - traefik.http.routers.overseerr-secure.tls.certresolver=cloudflare
+      - traefik.http.routers.overseerr-secure.service=overseerr
+      # - traefik.http.routers.overseerr-secure.middlewares=auth
+      - traefik.http.services.overseerr.loadbalancer.server.port=5055
       - homepage.group=Media
       - homepage.name=Overseerr
       - homepage.description=Request and discover movies & TV shows for your media server
@@ -146,19 +146,19 @@ services:
     networks:
       proxy:
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=proxy"
-      - "traefik.http.routers.tunarr.entrypoints=http"
-      - "traefik.http.routers.tunarr.rule=Host(`tunarr.media.hobbscene.com`)"
-      - "traefik.http.middlewares.tunarr-https-redirect.redirectscheme.scheme=https"
-      - "traefik.http.routers.tunarr.middlewares=tunarr-https-redirect"
-      - "traefik.http.routers.tunarr-secure.entrypoints=https"
-      - "traefik.http.routers.tunarr-secure.rule=Host(`tunarr.media.hobbscene.com`)"
-      - "traefik.http.routers.tunarr-secure.tls=true"
-      # - "traefik.http.routers.tunarr-secure.tls.certresolver=cloudflare"
-      - "traefik.http.routers.tunarr-secure.service=tunarr"
-      # - "traefik.http.routers.tunarr-secure.middlewares=auth"
-      - "traefik.http.services.tunarr.loadbalancer.server.port=8000"
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+      - traefik.http.routers.tunarr.entrypoints=http
+      - traefik.http.routers.tunarr.rule=Host(`tunarr.media.hobbscene.com`)
+      - traefik.http.middlewares.tunarr-https-redirect.redirectscheme.scheme=https
+      - traefik.http.routers.tunarr.middlewares=tunarr-https-redirect
+      - traefik.http.routers.tunarr-secure.entrypoints=https
+      - traefik.http.routers.tunarr-secure.rule=Host(`tunarr.media.hobbscene.com`)
+      - traefik.http.routers.tunarr-secure.tls=true
+      # - traefik.http.routers.tunarr-secure.tls.certresolver=cloudflare
+      - traefik.http.routers.tunarr-secure.service=tunarr
+      # - traefik.http.routers.tunarr-secure.middlewares=auth
+      - traefik.http.services.tunarr.loadbalancer.server.port=8000
       - homepage.group=Media
       - homepage.name=Tunarr
       - homepage.description=Create virtual live TV channels from your media library
@@ -181,19 +181,19 @@ services:
     ports:
       - 8181:8181
     labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=proxy"
-      - "traefik.http.routers.tautulli.entrypoints=http"
-      - "traefik.http.routers.tautulli.rule=Host(`tautulli.media.hobbscene.com`)"
-      - "traefik.http.middlewares.tautulli-https-redirect.redirectscheme.scheme=https"
-      - "traefik.http.routers.tautulli.middlewares=tautulli-https-redirect"
-      - "traefik.http.routers.tautulli-secure.entrypoints=https"
-      - "traefik.http.routers.tautulli-secure.rule=Host(`tautulli.media.hobbscene.com`)"
-      - "traefik.http.routers.tautulli-secure.tls=true"
-      # - "traefik.http.routers.tautulli-secure.tls.certresolver=cloudflare"
-      - "traefik.http.routers.tautulli-secure.service=tautulli"
-      # - "traefik.http.routers.tautulli-secure.middlewares=auth"
-      - "traefik.http.services.tautulli.loadbalancer.server.port=8181"
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+      - traefik.http.routers.tautulli.entrypoints=http
+      - traefik.http.routers.tautulli.rule=Host(`tautulli.media.hobbscene.com`)
+      - traefik.http.middlewares.tautulli-https-redirect.redirectscheme.scheme=https
+      - traefik.http.routers.tautulli.middlewares=tautulli-https-redirect
+      - traefik.http.routers.tautulli-secure.entrypoints=https
+      - traefik.http.routers.tautulli-secure.rule=Host(`tautulli.media.hobbscene.com`)
+      - traefik.http.routers.tautulli-secure.tls=true
+      # - traefik.http.routers.tautulli-secure.tls.certresolver=cloudflare
+      - traefik.http.routers.tautulli-secure.service=tautulli
+      # - traefik.http.routers.tautulli-secure.middlewares=auth
+      - traefik.http.services.tautulli.loadbalancer.server.port=8181
       - homepage.group=Media
       - homepage.name=Tautulli
       - homepage.description=Monitor Plex statistics, user activity and media library
@@ -242,49 +242,49 @@ volumes:
     driver_opts:
       o: bind
       type: none
-      device: '/media/tim/h-element-16gb/Video'
+      device: /media/tim/h-element-16gb/Video
   media_music:
     driver: local
     driver_opts:
       o: bind
       type: none
-      device: '/media/tim/h-element-16gb/Music'
+      device: /media/tim/h-element-16gb/Music
   media_movies:
     driver: local
     driver_opts:
       o: bind
       type: none
-      device: '/media/tim/h-element-16gb/Movies'
+      device: /media/tim/h-element-16gb/Movies
   media_tv:
     driver: local
     driver_opts:
       o: bind
       type: none
-      device: '/media/tim/h-element-16gb/TV'
+      device: /media/tim/h-element-16gb/TV
   media_dvr:
     driver: local
     driver_opts:
       o: bind
       type: none
-      device: '/media/tim/h-element-16gb/Video/DVR/ubuntu'
+      device: /media/tim/h-element-16gb/Video/DVR/ubuntu
   media_other:
     driver: local
     driver_opts:
       o: bind
       type: none
-      device: '/media/tim/h-element-16gb/Other'
+      device: /media/tim/h-element-16gb/Other
   winshare_data:
     driver: local
     driver_opts:
       o: bind
       type: none
-      device: '/media/winshare/web-tim-2/f/Data/ubuntu'
+      device: /media/winshare/web-tim-2/f/Data/ubuntu
   winshare_plex:
     driver: local
     driver_opts:
       o: bind
       type: none
-      device: '/media/winshare/web-tim-2/f/Data/ubuntu/Library/Application Support/Plex Media Server'
+      device: /media/winshare/web-tim-2/f/Data/ubuntu/Library/Application Support/Plex Media Server
 
 networks:
   proxy:
