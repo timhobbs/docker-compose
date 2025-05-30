@@ -128,7 +128,7 @@ services:
       - homepage.weight=3
 
   tunarr:
-    image: chrisbenincasa/tunarr:latest
+    image: chrisbenincasa/tunarr:latest-nvidia
     container_name: tunarr
     devices:
       - /dev/dri:/dev/dri
