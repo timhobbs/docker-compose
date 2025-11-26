@@ -12,7 +12,8 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /home/tim/Public/git/docker/arr-stack/sonarr:/config
       - media_tv:/media/winshare/tv # optional
-      - seagate:/data # optional
+      - seagate_dl:/data/download # optional
+      - seagate_complete:/data/complete # optional
     ports:
       - 8989:8989
     restart: unless-stopped
@@ -54,7 +55,8 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /home/tim/Public/git/docker/arr-stack/radarr:/config
       - media_movies:/media/winshare/movies # optional
-      - seagate:/data # optional
+      - seagate_dl:/data/download # optional
+      - seagate_complete:/data/complete # optional
     ports:
       - 7878:7878
     restart: unless-stopped
@@ -266,6 +268,18 @@ volumes:
       o: bind
       type: none
       device: /media/tim/seagate500gb
+  seagate_dl:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /media/tim/seagate500gb/download
+  seagate_complete:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /media/tim/seagate500gb/complete
 
 networks:
   proxy:

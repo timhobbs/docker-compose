@@ -80,7 +80,9 @@ services:
       - DELUGE_LOGLEVEL=info
     volumes:
       - /home/tim/Public/git/docker/torrent/deluge:/config
-      - seagate:/data
+      - seagate_dl:/data/download
+      - seagate_complete:/data/complete
+      - seagate_torrents:/data/torrents
       # Dark mode
       - /home/tim/Public/git/docker/torrent/deluge/ui/icons:/usr/lib/python3.12/site-packages/deluge/ui/web/icons
       - /home/tim/Public/git/docker/torrent/deluge/ui/images:/usr/lib/python3.12/site-packages/deluge/ui/web/images
@@ -106,6 +108,24 @@ volumes:
       o: bind
       type: none
       device: /media/tim/seagate500gb
+  seagate_dl:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /media/tim/seagate500gb/download
+  seagate_complete:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /media/tim/seagate500gb/complete
+  seagate_torrents:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /media/tim/seagate500gb/torrents
 
 networks:
   proxy:
