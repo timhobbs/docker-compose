@@ -29,7 +29,7 @@ services:
       - traefik.http.routers.sonarr-secure.tls=true
       # - traefik.http.routers.sonarr-secure.tls.certresolver=cloudflare
       - traefik.http.routers.sonarr-secure.service=sonarr
-      # - traefik.http.routers.sonarr-secure.middlewares=auth
+      - traefik.http.routers.sonarr-secure.middlewares=authentik-media@docker
       - traefik.http.services.sonarr.loadbalancer.server.port=8989
       - homepage.group=Arr Stack
       - homepage.name=Sonarr
@@ -72,7 +72,7 @@ services:
       - traefik.http.routers.radarr-secure.tls=true
       # - traefik.http.routers.radarr-secure.tls.certresolver=cloudflare
       - traefik.http.routers.radarr-secure.service=radarr
-      # - traefik.http.routers.radarr-secure.middlewares=auth
+      - traefik.http.routers.radarr-secure.middlewares=authentik-media@docker
       - traefik.http.services.radarr.loadbalancer.server.port=7878
       - homepage.group=Arr Stack
       - homepage.name=Radarr
@@ -113,7 +113,7 @@ services:
       - traefik.http.routers.lidarr-secure.tls=true
       # - traefik.http.routers.lidarr-secure.tls.certresolver=cloudflare
       - traefik.http.routers.lidarr-secure.service=lidarr
-      # - traefik.http.routers.lidarr-secure.middlewares=auth
+      - traefik.http.routers.lidarr-secure.middlewares=authentik-media@docker
       - traefik.http.services.lidarr.loadbalancer.server.port=8686
       - homepage.group=Arr Stack
       - homepage.name=Lidarr
@@ -153,7 +153,7 @@ services:
       - traefik.http.routers.bazarr-secure.tls=true
       # - traefik.http.routers.bazarr-secure.tls.certresolver=cloudflare
       - traefik.http.routers.bazarr-secure.service=bazarr
-      # - traefik.http.routers.bazarr-secure.middlewares=auth
+      - traefik.http.routers.bazarr-secure.middlewares=authentik-media@docker
       - traefik.http.services.bazarr.loadbalancer.server.port=6767
       - homepage.group=Arr Stack
       - homepage.name=Bazarr
@@ -191,7 +191,7 @@ services:
       - traefik.http.routers.prowlarr-secure.tls=true
       # - traefik.http.routers.prowlarr-secure.tls.certresolver=cloudflare
       - traefik.http.routers.prowlarr-secure.service=prowlarr
-      # - traefik.http.routers.prowlarr-secure.middlewares=auth
+      - traefik.http.routers.prowlarr-secure.middlewares=authentik-media@docker
       - traefik.http.services.prowlarr.loadbalancer.server.port=9696
       - homepage.group=Arr Stack
       - homepage.name=Prowlarr

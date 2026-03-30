@@ -57,7 +57,7 @@ services:
       - traefik.http.routers.deluge-secure.tls=true
       # - traefik.http.routers.deluge-secure.tls.certresolver=cloudflare
       - traefik.http.routers.deluge-secure.service=deluge
-      # - traefik.http.routers.deluge-secure.middlewares=auth
+      - traefik.http.routers.deluge-secure.middlewares=authentik-media@docker
       - traefik.http.services.deluge.loadbalancer.server.port=8112
       - homepage.group=Torrent
       - homepage.name=Gluetun
@@ -69,7 +69,7 @@ services:
       - homepage.widget.fields=["public_ip", "region", "country"]
 
   deluge:
-    image: lscr.io/linuxserver/deluge
+    image: lscr.io/linuxserver/deluge:2.2.0-r1-ls364
     container_name: deluge
     network_mode: service:gluetun
     environment:

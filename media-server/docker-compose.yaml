@@ -114,7 +114,7 @@ services:
       - traefik.http.routers.overseerr-secure.tls=true
       # - traefik.http.routers.overseerr-secure.tls.certresolver=cloudflare
       - traefik.http.routers.overseerr-secure.service=overseerr
-      # - traefik.http.routers.overseerr-secure.middlewares=auth
+      - traefik.http.routers.overseerr-secure.middlewares=authentik-media@docker
       - traefik.http.services.overseerr.loadbalancer.server.port=5055
       - homepage.group=Media
       - homepage.name=Overseerr
@@ -157,7 +157,7 @@ services:
       - traefik.http.routers.tunarr-secure.tls=true
       # - traefik.http.routers.tunarr-secure.tls.certresolver=cloudflare
       - traefik.http.routers.tunarr-secure.service=tunarr
-      # - traefik.http.routers.tunarr-secure.middlewares=auth
+      - traefik.http.routers.tunarr-secure.middlewares=authentik-media@docker
       - traefik.http.services.tunarr.loadbalancer.server.port=8000
       - homepage.group=Media
       - homepage.name=Tunarr
@@ -192,7 +192,7 @@ services:
       - traefik.http.routers.tautulli-secure.tls=true
       # - traefik.http.routers.tautulli-secure.tls.certresolver=cloudflare
       - traefik.http.routers.tautulli-secure.service=tautulli
-      # - traefik.http.routers.tautulli-secure.middlewares=auth
+      - traefik.http.routers.tautulli-secure.middlewares=authentik-media@docker
       - traefik.http.services.tautulli.loadbalancer.server.port=8181
       - homepage.group=Media
       - homepage.name=Tautulli

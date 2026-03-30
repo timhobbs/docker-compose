@@ -28,7 +28,7 @@ services:
       - traefik.http.routers.glances-secure.tls=true
       # - traefik.http.routers.glances-secure.tls.certresolver=cloudflare
       - traefik.http.routers.glances-secure.service=glances
-      # - traefik.http.routers.glances-secure.middlewares=auth
+      # - traefik.http.routers.glances-secure.middlewares=authentik-media@docker
       - traefik.http.services.glances.loadbalancer.server.port=61208
       - homepage.group=Monitoring
       - homepage.name=Media

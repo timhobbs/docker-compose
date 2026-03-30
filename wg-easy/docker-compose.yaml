@@ -3,17 +3,18 @@ services:
     environment:
       # ⚠️ Required:
       # Change this to your host's public address
-      - WG_HOST=vpn.media.hobbscene.com # The public hostname of your VPN server.
+      - WG_HOST=wg-easy.vpn.hobbscene.com # The public hostname of your VPN server.
 
       # Optional:
-      - PASSWORD_HASH=${UI_PASS} # When set, requires a password when logging in to the Web UI.
+      - PASSWORD_HASH=${PASSWORD_HASH} # When set, requires a password when logging in to the Web UI.
       - WG_PORT=51820 # The public UDP port of your VPN server. WireGuard will always listen on 51820 inside the Docker container.
       - WG_DEFAULT_ADDRESS=10.8.0.x # Clients IP address range.
-      - WG_DEFAULT_DNS=8.8.8.8 # DNS server clients will use.
+      - WG_DEFAULT_DNS=192.168.1.131 # DNS server clients will use.
       - WG_MTU=1420 # The MTU the clients will use. Server uses default WG MTU.
       - WG_ALLOWED_IPS=192.168.1.0/24, 10.0.1.0/24 # Allowed IPs clients will use.
       # - WG_PRE_UP=echo "Pre Up" > /etc/wireguard/pre-up.txt
       # - WG_POST_UP=echo "Post Up" > /etc/wireguard/post-up.txt
+      - WG_POST_UP=iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o eth0 -j MASQUERADE; iptables -A INPUT -p udp -m udp --dport 51820 -j ACCEPT; iptables -A FORWARD -i wg0 -j ACCEPT; iptables -A FORWARD -o wg0 -j ACCEPT;
       # - WG_PRE_DOWN=echo "Pre Down" > /etc/wireguard/pre-down.txt
       # - WG_POST_DOWN=echo "Post Down" > /etc/wireguard/post-down.txt
     image: ghcr.io/wg-easy/wg-easy:latest
@@ -35,28 +36,34 @@ services:
       - net.ipv6.conf.default.forwarding=1
     networks:
       proxy:
+      macvlan:
+        ipv4_address: 192.168.1.254
     labels:
       - traefik.enable=true
       - traefik.docker.network=proxy
-      - traefik.http.routers.vpn.entrypoints=http
-      - traefik.http.routers.vpn.rule=Host(`vpn.media.hobbscene.com`)
+      # HTTP Redirect
+      - traefik.http.routers.vpn-http.entrypoints=http
+      - traefik.http.routers.vpn-http.rule=Host(`wg-easy.vpn.hobbscene.com`)
+      - traefik.http.routers.vpn-http.middlewares=vpn-https-redirect
       - traefik.http.middlewares.vpn-https-redirect.redirectscheme.scheme=https
-      - traefik.http.routers.vpn.middlewares=vpn-https-redirect
+      # HTTPS Secure
       - traefik.http.routers.vpn-secure.entrypoints=https
-      - traefik.http.routers.vpn-secure.rule=Host(`vpn.media.hobbscene.com`)
+      - traefik.http.routers.vpn-secure.rule=Host(`wg-easy.vpn.hobbscene.com`)
       - traefik.http.routers.vpn-secure.tls=true
-      - traefik.http.routers.vpn-secure.service=vpn
-      - traefik.http.services.vpn.loadbalancer.server.port=51821
+      - traefik.http.routers.vpn-secure.service=vpn-service # Custom service name
+      - traefik.http.services.vpn-service.loadbalancer.server.port=51821
       - homepage.group=Security
       - homepage.name=WireGuard
       - homepage.description=Easy-to-use WireGuard VPN server
       - homepage.icon=wireguard
-      - homepage.href=https://vpn.media.hobbscene.com
+      - homepage.href=https://wg-easy.vpn.hobbscene.com
       - homepage.widget.type=wgeasy
-      - homepage.widget.url=http://192.168.1.101:51821
+      - homepage.widget.url=http://192.168.1.254:51821
       - homepage.widget.password=${UI_PASS}
       - homepage.widget.fields=["connected", "enabled", "disabled", "total"]
 
 networks:
   proxy:
+    external: true
+  macvlan:
     external: true
