@@ -27,7 +27,7 @@ services:
       - traefik.http.routers.homepage-secure.tls=true
       # - traefik.http.routers.homepage-secure.tls.certresolver=cloudflare
       - traefik.http.routers.homepage-secure.service=homepage
-      # - traefik.http.routers.homepage-secure.middlewares=auth
+      - traefik.http.routers.homepage-secure.middlewares=authentik-media@docker
       - traefik.http.services.homepage.loadbalancer.server.port=3000
 
 networks:

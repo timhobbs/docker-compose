@@ -24,10 +24,11 @@ services:
       - traefik.http.routers.portainer-secure.service=portainer
       - traefik.http.services.portainer.loadbalancer.server.port=9000
       - traefik.docker.network=proxy
+      - traefik.http.routers.portainer-secure.middlewares=authentik-media@docker
       # - traefik.http.routers.portainer-secure.ipwhitelist.sourcerange=127.0.0.1/32, 172.18.0.0/24, 192.168.1.0/24
       # - traefik.http.routers.portainer-secure.rule=Host() && (ClientIP(172.18.0.0/24) || ClientIP(192.168.1.0/24))
       - homepage.group=Networking
-      - homepage.name=Portainer
+      - homepage.name=Portainer (Media)
       - homepage.description=Docker container management and monitoring
       - homepage.href=https://portainer.media.hobbscene.com
       - homepage.icon=portainer
