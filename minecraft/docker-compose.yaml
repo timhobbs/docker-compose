@@ -1,0 +1,77 @@
+services:
+  minecraft-bedrock-server:
+    image: itzg/minecraft-bedrock-server
+    container_name: mc
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - EULA=TRUE
+      - SERVER_PORT=19132
+      - DIFFICULTY=peaceful
+      ## Enable the allowlist
+      - ALLOW_LIST=true
+      # List gamertags separated by commas (optional initial list)
+      - ALLOW_LIST_USERS=fallenvinez,bumfuzzl
+      - OPS=fallenvinez,bumfuzzl
+      # For admin commands
+      - ALLOW_CHEATS=true
+      - LEVEL_NAME=Bedrock level
+    ports:
+      - "19132:19132/udp"
+    volumes:
+      - mc:/data
+    restart: unless-stopped
+    networks:
+      - proxy
+
+  addon-manager:
+    build: /media/tim/g-element-8gb/Public/minecraft/minecraft-bedrock-server-add-on-manager
+    container_name: addon-manager
+    ports:
+      - "18080:80" # The Web UI for managing addons
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - mc:/mc-data/dedicated-server
+    environment:
+      - PUID=1000
+      - PGID=1000
+    env_file:
+      - .env.prod
+    restart: unless-stopped
+    depends_on:
+      - minecraft-bedrock-server
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+      # HTTP Redirect
+      - traefik.http.routers.bds-http.entrypoints=http
+      - traefik.http.routers.bds-http.rule=Host(`bds.media.hobbscene.com`)
+      - traefik.http.routers.bds-http.middlewares=bds-https-redirect
+      - traefik.http.middlewares.bds-https-redirect.redirectscheme.scheme=https
+      # HTTPS Secure
+      - traefik.http.routers.bds-secure.entrypoints=https
+      - traefik.http.routers.bds-secure.rule=Host(`bds.media.hobbscene.com`)
+      - traefik.http.routers.bds-secure.tls=true
+      - traefik.http.routers.bds-secure.service=bds-service # Custom service name
+      - traefik.http.services.bds-service.loadbalancer.server.port=80
+      # Homepage
+      - homepage.group=Tools
+      - homepage.name=Addon Manager
+      - homepage.description=A web interface for managing Minecraft Bedrock Server addons, making it easy to enhance your server with new features and content.
+      - homepage.href=https://bds.media.hobbscene.com
+      - homepage.icon=https://static.wikia.nocookie.net/logopedia/images/f/f9/Minecraft_Bedrock_icon.svg
+
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
+
+volumes:
+  mc:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /media/tim/g-element-8gb/Public/minecraft/bedrock-server
