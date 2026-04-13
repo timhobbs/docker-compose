@@ -16,12 +16,15 @@ services:
       - .env # store other secrets e.g., dashboard password
     networks:
       proxy:
+    command:
+      - --entryPoints.mc-bedrock.address=:19132/udp
     ports:
       - 80:80
       - 81:81
       - 443:443
       - 444:444
       - 8800:8080
+      - 19132:19132/udp # Minecraft Bedrock Edition default port, adjust if needed
       # - 10000:10000 # optional
       # - 33073:33073 # optional
     environment:
