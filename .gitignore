@@ -9,8 +9,7 @@ yarn-error.log*
 
 # Ignore environment variables
 .env
-.env.local
-.env.*.local
+.env.*
 
 # Ignore Docker files
 docker-compose.override.yml
