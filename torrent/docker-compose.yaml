@@ -1,4 +1,14 @@
 services:
+  # 1. The Generator: Runs, creates the file, then stops
+  pia-gen:
+    image: ptsimpso/pia_wg_conf_creator:latest
+    container_name: pia-gen
+    environment:
+      - PIA_USER=${PIA_USER}
+      - PIA_PASS=${PIA_PASS}
+      - PIA_REGION=${PIA_REGION}
+    volumes:
+      - vpn_config:/output
   gluetun:
     image: qmcgaw/gluetun
     container_name: gluetun
@@ -23,18 +33,27 @@ services:
       - /home/tim/Public/git/docker/torrent/gluetun:/gluetun
       - /home/tim/Public/git/docker/torrent/gluetun/port_forward:/tmp/gluetun/forwarded_port
       - /home/tim/Public/git/docker/torrent/gluetun/config.toml:/gluetun/auth/config.toml
+      - vpn_config:/gluetun/wireguard:ro
       # - ./wg0.conf:/gluetun/wireguard/wg0.conf:ro
     environment:
-      # See https://github.com/qdm12/gluetun-wiki/tree/main/setup#setup
-      - VPN_SERVICE_PROVIDER=private internet access
-      - VPN_TYPE=openvpn
-      # OpenVPN:
-      - OPENVPN_USER=${PIA_USER}
-      - OPENVPN_PASSWORD=${PIA_PASS}
-      - SERVER_REGIONS=US Seattle
-      # Wireguard:
+      # # See https://github.com/qdm12/gluetun-wiki/tree/main/setup#setup
+      # - VPN_SERVICE_PROVIDER=private internet access
+      # - VPN_TYPE=openvpn
+      # # OpenVPN:
+      # - OPENVPN_USER=${PIA_USER}
+      # - OPENVPN_PASSWORD=${PIA_PASS}
+      # - SERVER_REGIONS=US Seattle
+      # # Wireguard:
+      # # - WIREGUARD_PRIVATE_KEY=${WG_PRIVATE}
+      # # - WIREGUARD_ADDRESSES=10.26.238.163/32
+
+      - VPN_TYPE=wireguard
+      - VPN_SERVICE_PROVIDER=custom
+      - WIREGUARD_CUSTOM_CONFIG=/gluetun/wireguard/wg0.conf
       # - WIREGUARD_PRIVATE_KEY=${WG_PRIVATE}
       # - WIREGUARD_ADDRESSES=10.26.238.163/32
+      # - SERVER_REGIONS=US Seattle
+
       # Timezone for accurate log times
       - TZ=America/Los_Angeles
       # Server list updater
@@ -42,6 +61,12 @@ services:
       - UPDATER_PERIOD=12h
       # Allow communication between containers
       - FIREWALL_OUTBOUND_SUBNETS=192.168.1.0/24
+      - HEALTH_TARGET_ADDRESS=1.1.1.1
+      - DOT=off
+      - DNS_ADDRESS=1.1.1.1
+    depends_on:
+      pia-gen:
+        condition: service_completed_successfully
     restart: always
     networks:
       proxy:
@@ -88,7 +113,8 @@ services:
       - /home/tim/Public/git/docker/torrent/deluge/ui/images:/usr/lib/python3.12/site-packages/deluge/ui/web/images
       - /home/tim/Public/git/docker/torrent/deluge/ui/themes:/usr/lib/python3.12/site-packages/deluge/ui/web/themes
     depends_on:
-      - gluetun
+      gluetun:
+        condition: service_healthy
     restart: unless-stopped
     labels:
       - homepage.group=Torrent
@@ -102,6 +128,7 @@ services:
       - homepage.widget.fields=["leech", "download", "seed", "upload"]
 
 volumes:
+  vpn_config:
   seagate:
     driver: local
     driver_opts:
