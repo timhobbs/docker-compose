@@ -127,44 +127,44 @@ services:
       - homepage.widget.fields=["pending", "approved", "available", "processing"]
       - homepage.weight=3
 
-  tunarr:
-    image: chrisbenincasa/tunarr:latest-nvidia
-    container_name: tunarr
-    devices:
-      - /dev/dri:/dev/dri
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/Los_Angeles
-      - LOG_LEVEL=INFO
-    volumes:
-      - /home/tim/Public/git/docker/media-server/tunarr:/config/tunarr
-      - /home/tim/Public/git/docker/media-server/.dizquetv:/.dizquetv
-    ports:
-      - 8585:8000
-    restart: unless-stopped
-    networks:
-      proxy:
-    labels:
-      - traefik.enable=true
-      - traefik.docker.network=proxy
-      - traefik.http.routers.tunarr.entrypoints=http
-      - traefik.http.routers.tunarr.rule=Host(`tunarr.media.hobbscene.com`)
-      - traefik.http.middlewares.tunarr-https-redirect.redirectscheme.scheme=https
-      - traefik.http.routers.tunarr.middlewares=tunarr-https-redirect
-      - traefik.http.routers.tunarr-secure.entrypoints=https
-      - traefik.http.routers.tunarr-secure.rule=Host(`tunarr.media.hobbscene.com`)
-      - traefik.http.routers.tunarr-secure.tls=true
-      # - traefik.http.routers.tunarr-secure.tls.certresolver=cloudflare
-      - traefik.http.routers.tunarr-secure.service=tunarr
-      - traefik.http.routers.tunarr-secure.middlewares=authentik-media@docker
-      - traefik.http.services.tunarr.loadbalancer.server.port=8000
-      - homepage.group=Media
-      - homepage.name=Tunarr
-      - homepage.description=Create virtual live TV channels from your media library
-      - homepage.href=https://tunarr.media.hobbscene.com
-      - homepage.icon=https://styles.redditmedia.com/t5_b9tpn2/styles/communityIcon_tk1njjx3sg8d1.png
-      - homepage.weight=4
+  # tunarr:
+  #   image: chrisbenincasa/tunarr:latest-nvidia
+  #   container_name: tunarr
+  #   devices:
+  #     - /dev/dri:/dev/dri
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=1000
+  #     - TZ=America/Los_Angeles
+  #     - LOG_LEVEL=INFO
+  #   volumes:
+  #     - /home/tim/Public/git/docker/media-server/tunarr:/config/tunarr
+  #     - /home/tim/Public/git/docker/media-server/.dizquetv:/.dizquetv
+  #   ports:
+  #     - 8585:8000
+  #   restart: unless-stopped
+  #   networks:
+  #     proxy:
+  #   labels:
+  #     - traefik.enable=true
+  #     - traefik.docker.network=proxy
+  #     - traefik.http.routers.tunarr.entrypoints=http
+  #     - traefik.http.routers.tunarr.rule=Host(`tunarr.media.hobbscene.com`)
+  #     - traefik.http.middlewares.tunarr-https-redirect.redirectscheme.scheme=https
+  #     - traefik.http.routers.tunarr.middlewares=tunarr-https-redirect
+  #     - traefik.http.routers.tunarr-secure.entrypoints=https
+  #     - traefik.http.routers.tunarr-secure.rule=Host(`tunarr.media.hobbscene.com`)
+  #     - traefik.http.routers.tunarr-secure.tls=true
+  #     # - traefik.http.routers.tunarr-secure.tls.certresolver=cloudflare
+  #     - traefik.http.routers.tunarr-secure.service=tunarr
+  #     - traefik.http.routers.tunarr-secure.middlewares=authentik-media@docker
+  #     - traefik.http.services.tunarr.loadbalancer.server.port=8000
+  #     - homepage.group=Media
+  #     - homepage.name=Tunarr
+  #     - homepage.description=Create virtual live TV channels from your media library
+  #     - homepage.href=https://tunarr.media.hobbscene.com
+  #     - homepage.icon=https://styles.redditmedia.com/t5_b9tpn2/styles/communityIcon_tk1njjx3sg8d1.png
+  #     - homepage.weight=4
 
   tautulli:
     image: ghcr.io/tautulli/tautulli
